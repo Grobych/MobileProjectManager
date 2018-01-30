@@ -6,13 +6,12 @@ namespace STPMP.Entity
 {
     class User
     {
-        private string name;
-        private int ID;
-        private bool isOnline;
+        public bool IsOnline { get; set; }
 
-        public bool IsOnline { get => isOnline; set => isOnline = value; }
-        public int GetID { get => ID; set => ID = value; }
-        public string Name { get => name; set => name = value; }
+        public int ID { get; set; }
 
+        public string Name { get; set; }
+
+        public byte[] Img { get; set; }
     }
 }

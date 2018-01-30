@@ -5,13 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
+using Xamarin.Forms.Xaml;
+
 namespace MobileProjectManager
 {
-	public partial class MainPage : ContentPage
+	[XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class ProfilePage : ContentPage
 	{
-		public MainPage()
+		public ProfilePage ()
 		{
-			InitializeComponent();
+			InitializeComponent ();
 		}
 	}
 }

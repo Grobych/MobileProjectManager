@@ -11,10 +11,8 @@ namespace MobileProjectManager
 	{
 		public App ()
 		{
-			InitializeComponent();
-
-			MainPage = new MobileProjectManager.MainPage();
-		}
+            MainPage = new MobileProjectManager.MainPage();
+        }
 
 		protected override void OnStart ()
 		{

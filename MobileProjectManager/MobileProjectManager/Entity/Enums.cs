@@ -4,6 +4,6 @@ using System.Text;
 
 namespace STPMP.Entity
 {
-    enum TaskStatus { OPENED, IN_PROGRESS, COMPLETED, CONFIRMED, CLOSED};
+    enum TaskStatus { Opened, InProgress, Completed, Confirmed, Closed};
 
 }
