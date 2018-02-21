@@ -17,6 +17,7 @@ namespace MobileProjectManager.ViewModels
         public ICommand DeleteProjectCommand { protected set; get; }
         public ICommand SaveProjectCommand { protected set; get; }
         public ICommand BackCommand { protected set; get; }
+        
         ProjectViewModel selectedProject;
 
         public INavigation Navigation { get; set; }
@@ -40,7 +41,7 @@ namespace MobileProjectManager.ViewModels
                     ProjectViewModel tempProject = value;
                     selectedProject = null;
                     OnPropertyChanged("SelectedProject");
-                    Navigation.PushAsync(new ProjectPage(tempProject));
+                    Navigation.PushAsync(new ProjectInfoPage(tempProject));
                 }
             }
         }
@@ -52,7 +53,7 @@ namespace MobileProjectManager.ViewModels
 
         private void CreateProject()
         {
-            Navigation.PushAsync(new ProjectPage(new ProjectViewModel() { ListViewModel = this }));
+            Navigation.PushAsync(new ProjectCreatePage(new ProjectViewModel() { ListViewModel = this }));
         }
         private void Back()
         {
@@ -60,10 +61,15 @@ namespace MobileProjectManager.ViewModels
         }
         private void SaveProject(object projectObject)
         {
+            // TODO: fix bug with 2 equal project after editing one of them
             ProjectViewModel project = projectObject as ProjectViewModel;
             if (project != null && project.IsValid)
             {
                 Projects.Add(project);
+            } else
+            {
+                // TODO: Make toast;
+                return;
             }
             Back();
         }

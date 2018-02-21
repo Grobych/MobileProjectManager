@@ -4,7 +4,7 @@
              x:Class="MobileProjectManager.Views.ProjectListPage" Title="Список проектов">
         <StackLayout>
             <Button Text="Новый проект" Command="{Binding CreateProjectCommand}" />
-            <ListView x:Name="booksList" ItemsSource="{Binding Projects}"
+            <ListView x:Name="projectList" ItemsSource="{Binding Projects}"
               SelectedItem="{Binding SelectedProject, Mode=TwoWay}" HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MobileProjectManager.Models
 {
-    class User
+    public class User
     {
         public bool IsOnline { get; set; }
 
@@ -13,5 +13,11 @@ namespace MobileProjectManager.Models
         public string Name { get; set; }
 
         public byte[] Img { get; set; }
+
+        public User()
+        {
+            IsOnline = false;
+            Name = "Ivan";
+        }
     }
 }

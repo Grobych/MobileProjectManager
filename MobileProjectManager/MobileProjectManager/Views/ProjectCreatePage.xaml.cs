@@ -3,10 +3,10 @@ using Xamarin.Forms;
 
 namespace MobileProjectManager.Views
 {
-    public partial class ProjectPage : ContentPage
+    public partial class ProjectCreatePage : ContentPage
     {
         public ProjectViewModel ViewModel { get; private set; }
-        public ProjectPage(ProjectViewModel vm)
+        public ProjectCreatePage(ProjectViewModel vm)
         {
             InitializeComponent();
             ViewModel = vm;

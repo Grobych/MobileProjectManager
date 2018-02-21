@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileProjectManager.Views.ProjectEditPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout x:Name="projectStack">
+                <Label Text="Название" />
+                <Entry Text="{Binding Name}" FontSize="Large" />
+                <Label Text="Статус"/>
+                <Label Text="{Binding Status}" FontSize="Medium" />
+                <Label Text="Клиент" />
+                <Entry Text="{Binding Client}" FontSize="Medium" />
+                <Label Text="Описание" />
+                <Entry Text="{Binding Description}" FontSize="Small" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Label HorizontalOptions="Start" Text="Начало:"></Label>
+                <Label HorizontalOptions="End" Text="01.02.2018"></Label>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Label HorizontalOptions="Start" Text="Завершено:"></Label>
+                <DatePicker Date="{Binding Finish}"></DatePicker>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Label HorizontalOptions="Start" Text="Дедлайн:"></Label>
+                <DatePicker  Date="{Binding Deadline}" ></DatePicker>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Button Text="Сохранить" Command="{Binding ListViewModel.SaveProjectCommand}" CommandParameter="{Binding}" />
+                <Button Text="Удалить" Command="{Binding ListViewModel.DeleteProjectCommand}" CommandParameter="{Binding}" />
+                <Button Text="Назад" Command="{Binding Path=ListViewModel.BackCommand}" />
+            </StackLayout>
+            <StackLayout Orientation="Vertical">
+                <Label Text="Работники в проекте:"></Label>
+                <ListView x:Name="workerList" ItemsSource="{Binding WorkerList}"
+              SelectedItem="{Binding SelectedWorker, Mode=TwoWay}" HasUnevenRows="True">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding Name}" FontSize="Medium" />
+                                        <Label Text="{Binding IsOnline}" FontSize="Small" />
+                                    </StackLayout>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
