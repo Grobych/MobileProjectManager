@@ -17,8 +17,8 @@
                 <DatePicker  Date="{Binding Deadline}" ></DatePicker>
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                <Button Text="Сохранить" Command="{Binding ListViewModel.SaveProjectCommand}" CommandParameter="{Binding}" />
-                <Button Text="Отмена" Command="{Binding Path=ListViewModel.BackCommand}" />
+                <Button Text="Сохранить" Command="{Binding CreateProjectCommand}" CommandParameter="{Binding}" />
+                <Button Text="Отмена" Command="{Binding CancelEditCommand}" />
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

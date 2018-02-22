@@ -14,7 +14,7 @@ namespace MobileProjectManager.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ProjectInfoPage : ContentPage
 	{
-        public ProjectViewModel ViewModel { get; private set; }
+        public ProjectViewModel ViewModel { get; set; }
         public ProjectInfoPage(ProjectViewModel vm)
         {
             InitializeComponent();

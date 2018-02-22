@@ -5,14 +5,16 @@
     <ContentPage.Content>
         <StackLayout>
             <StackLayout x:Name="projectStack">
+                <Label Text="ID" FontSize="Small"/>
+                <Label Text="{Binding Project.ID}" FontSize="Small" />
                 <Label Text="Название" />
-                <Label Text="{Binding Name}" FontSize="Large" />
+                <Label Text="{Binding Project.Name}" FontSize="Large" />
                 <Label Text="Статус"/>
-                <Label Text="{Binding Status}" FontSize="Medium" />
+                <Label Text="{Binding Project.Status}" FontSize="Medium" />
                 <Label Text="Клиент" />
-                <Label Text="{Binding Client}" FontSize="Medium" />
+                <Label Text="{Binding Project.Client}" FontSize="Medium" />
                 <Label Text="Описание" />
-                <Label Text="{Binding Description}" FontSize="Small" />
+                <Label Text="{Binding Project.Description}" FontSize="Small" />
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 <Label HorizontalOptions="Start" Text="Начало:"></Label>
@@ -20,11 +22,11 @@
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                 <Label HorizontalOptions="Start" Text="Завершено:"></Label>
-                <Label HorizontalOptions="End" Text="{Binding Finish}" FontSize="Medium"></Label>
+                <Label HorizontalOptions="End" Text="{Binding Project.Finish}" FontSize="Medium"></Label>
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                 <Label HorizontalOptions="Start" Text="Дедлайн:"></Label>
-                <Label HorizontalOptions="End" Text="{Binding Deadline}" FontSize="Medium"></Label>
+                <Label HorizontalOptions="End" Text="{Binding Project.Deadline}" FontSize="Medium"></Label>
             </StackLayout>
             <Button Text="Редактировать" Command="{Binding EditProjectCommand}" CommandParameter="{Binding}"/>
             <StackLayout Orientation="Vertical">

@@ -16,9 +16,12 @@ namespace MobileProjectManager.ViewModels
         public ICommand CreateProjectCommand { protected set; get; }
         public ICommand DeleteProjectCommand { protected set; get; }
         public ICommand SaveProjectCommand { protected set; get; }
+        public ICommand AddProjectCommand { protected set; get; }
+        public ICommand UpdateProjectCommand { protected set; get; }
         public ICommand BackCommand { protected set; get; }
         
         ProjectViewModel selectedProject;
+        public ProjectViewModel curerentProject { get; set; }
 
         public INavigation Navigation { get; set; }
 
@@ -26,8 +29,6 @@ namespace MobileProjectManager.ViewModels
         {
             Projects = new ObservableCollection<ProjectViewModel>();
             CreateProjectCommand = new Command(CreateProject);
-            DeleteProjectCommand = new Command(DeleteProject);
-            SaveProjectCommand = new Command(SaveProject);
             BackCommand = new Command(Back);
         }
 
@@ -38,10 +39,10 @@ namespace MobileProjectManager.ViewModels
             {
                 if (selectedProject != value)
                 {
-                    ProjectViewModel tempProject = value;
                     selectedProject = null;
                     OnPropertyChanged("SelectedProject");
-                    Navigation.PushAsync(new ProjectInfoPage(tempProject));
+                    curerentProject = value;
+                    Navigation.PushAsync(new ProjectInfoPage(curerentProject));
                 }
             }
         }
@@ -51,36 +52,42 @@ namespace MobileProjectManager.ViewModels
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
         }
 
-        private void CreateProject()
+        public void CreateProject()
         {
             Navigation.PushAsync(new ProjectCreatePage(new ProjectViewModel() { ListViewModel = this }));
         }
-        private void Back()
+        public void Back()
         {
             Navigation.PopAsync();
         }
-        private void SaveProject(object projectObject)
+        public void AddProject(ProjectViewModel project)
         {
             // TODO: fix bug with 2 equal project after editing one of them
-            ProjectViewModel project = projectObject as ProjectViewModel;
-            if (project != null && project.IsValid)
-            {
-                Projects.Add(project);
-            } else
-            {
-                // TODO: Make toast;
-                return;
-            }
-            Back();
+            Projects.Add(project);
         }
-        private void DeleteProject(object projectObject)
+        public void SaveProject()
         {
-            ProjectViewModel project = projectObject as ProjectViewModel;
+            // TODO: define method SaveProject
+        }
+        public void DeleteProject(ProjectViewModel project)
+        {
             if (project != null)
             {
                 Projects.Remove(project);
             }
-            Back();
+        }
+
+        public void UpdateProject(ProjectViewModel tempProject)
+        {
+            foreach (ProjectViewModel pr in Projects)
+            {
+                if (pr.Project.ID == tempProject.Project.ID)
+                {
+                    Projects[Projects.IndexOf(pr)] = tempProject;
+                    break;
+                }
+            }
+            // TODO: fix update ProjectInfoPage
         }
     }
 }

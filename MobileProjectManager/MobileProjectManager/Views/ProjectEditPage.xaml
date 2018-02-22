@@ -4,15 +4,15 @@
              x:Class="MobileProjectManager.Views.ProjectEditPage">
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout x:Name="projectStack">
+            <StackLayout x:Name="projectEditStack">
                 <Label Text="Название" />
-                <Entry Text="{Binding Name}" FontSize="Large" />
+                <Entry Text="{Binding EditableProject.Name}" FontSize="Large" />
                 <Label Text="Статус"/>
-                <Label Text="{Binding Status}" FontSize="Medium" />
+                <Label Text="{Binding EditableProject.Status}" FontSize="Medium" />
                 <Label Text="Клиент" />
-                <Entry Text="{Binding Client}" FontSize="Medium" />
+                <Entry Text="{Binding EditableProject.Client}" FontSize="Medium" />
                 <Label Text="Описание" />
-                <Entry Text="{Binding Description}" FontSize="Small" />
+                <Entry Text="{Binding EditableProject.Description}" FontSize="Small" />
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 <Label HorizontalOptions="Start" Text="Начало:"></Label>
@@ -20,16 +20,16 @@
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                 <Label HorizontalOptions="Start" Text="Завершено:"></Label>
-                <DatePicker Date="{Binding Finish}"></DatePicker>
+                <DatePicker Date="{Binding EditableProject.Finish}"></DatePicker>
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                 <Label HorizontalOptions="Start" Text="Дедлайн:"></Label>
-                <DatePicker  Date="{Binding Deadline}" ></DatePicker>
+                <DatePicker  Date="{Binding EditableProject.Deadline}" ></DatePicker>
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                <Button Text="Сохранить" Command="{Binding ListViewModel.SaveProjectCommand}" CommandParameter="{Binding}" />
-                <Button Text="Удалить" Command="{Binding ListViewModel.DeleteProjectCommand}" CommandParameter="{Binding}" />
-                <Button Text="Назад" Command="{Binding Path=ListViewModel.BackCommand}" />
+                <Button Text="Сохранить" Command="{Binding UpdateProjectCommand} " CommandParameter="{Binding}" />
+                <Button Text="Удалить" Command="{Binding DeleteProjectCommand} " CommandParameter="{Binding}" />
+                <Button Text="Отмена" Command="{Binding ListViewModel.BackCommand}"  />
             </StackLayout>
             <StackLayout Orientation="Vertical">
                 <Label Text="Работники в проекте:"></Label>

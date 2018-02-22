@@ -19,6 +19,7 @@ namespace MobileProjectManager.ViewModels
 //        }
 
 
+
         public string Name
         {
             get { return User.Name; }

@@ -2,7 +2,7 @@
 
 namespace MobileProjectManager.Models
 {
-    public class Project
+    public class Project : ICloneable
     {
         public long ID { get; set; }
 
@@ -25,5 +25,15 @@ namespace MobileProjectManager.Models
         //public int TeamID { get; set; }
 
         //public int TaskListID { get; set; }
+
+       public Project()
+        {
+            ID = new Random().Next();
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

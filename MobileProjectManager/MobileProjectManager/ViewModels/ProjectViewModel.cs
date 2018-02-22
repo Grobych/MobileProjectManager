@@ -18,15 +18,35 @@ namespace MobileProjectManager.ViewModels
         public ProfileViewModel selectedWorker;
 
         public ICommand EditProjectCommand { protected set; get; }
+        public ICommand CancelEditCommand { protected set; get; }
+        public ICommand CreateProjectCommand { protected set; get; }
+        public ICommand UpdateProjectCommand { protected set; get; }
+        public ICommand DeleteProjectCommand { protected set; get; }
 
-        public Project Project { get; set; }
+        public Project Project { get; set ; }
+        public Project EditableProject { get; set; }
         
-
+        public ProjectViewModel(Project project)
+        {
+            Project = project;
+            EditableProject = (Project)project.Clone();
+            WorkerList = new ObservableCollection<ProfileViewModel>();
+            EditProjectCommand = new Command(EditCommand);
+            CancelEditCommand = new Command(CancelCommand);
+            CreateProjectCommand = new Command(CreateCommand);
+            UpdateProjectCommand = new Command(UpdateCommand);
+            DeleteProjectCommand = new Command(DeleteCommand);
+        }
         public ProjectViewModel()
         {
             Project = new Project();
+            EditableProject = (Project)Project.Clone();
             WorkerList = new ObservableCollection<ProfileViewModel>();
             EditProjectCommand = new Command(EditCommand);
+            CancelEditCommand = new Command(CancelCommand);
+            CreateProjectCommand = new Command(CreateCommand);
+            UpdateProjectCommand = new Command(UpdateCommand);
+            DeleteProjectCommand = new Command(DeleteCommand);
         }
 
         public ProjectListViewModel ListViewModel
@@ -41,6 +61,20 @@ namespace MobileProjectManager.ViewModels
                 }
             }
         }
+
+        public long ID
+        {
+            get { return Project.ID; }
+            set
+            {
+                if (Project.ID != value)
+                {
+                    Project.ID = value;
+                    OnPropertyChanged("ID");
+                }
+            }
+        }
+
         public string Name
         {
             get { return Project.Name; }
@@ -161,11 +195,43 @@ namespace MobileProjectManager.ViewModels
 
         public void EditCommand(object projectObject)
         {
-            Console.WriteLine("LOL");
-            Console.WriteLine(projectObject);
-            ProjectViewModel project = projectObject as ProjectViewModel;
-            //lvm.SelectedProject = this;
-            lvm.Navigation.PushAsync(new ProjectEditPage(this));
+            EditableProject = (Project)Project.Clone();
+            lvm.Navigation.PushAsync(new ProjectEditPage(this));// { EditableProject = (Project) this.Project.Clone()});
         }
+
+        public void CancelCommand()
+        {
+            lvm.Back();
+        }
+        public void CreateCommand(object project)
+        {
+            if (project is ProjectViewModel projectViewModel && projectViewModel.IsValid)
+            {
+                lvm.AddProject(projectViewModel);
+                lvm.Back();
+            }
+            else
+            {
+                // TODO: Make toast
+            }
+        }
+        public void DeleteCommand()
+        {
+            lvm.DeleteProject(this);
+            lvm.Back();
+            lvm.Back();
+        }
+        public void UpdateCommand(object project)
+        {
+            ProjectViewModel pvm = project as ProjectViewModel;
+            Project = EditableProject;
+            lvm.curerentProject.Project = (Project)EditableProject.Clone();
+            // TODO: fix return to prefious page
+            lvm.UpdateProject(project as ProjectViewModel);
+            lvm.Back();
+            lvm.Back();
+            lvm.Navigation.PushAsync(new ProjectInfoPage(this));
+        }
+
     }
 }
