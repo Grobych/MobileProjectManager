@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace STPMP.Entity
+namespace MobileProjectManager.Models
 {
-    class Project
+    public class Project : ICloneable
     {
-        public int ID { get; set; }
+        public long ID { get; set; }
 
         public string Name { get; set; }
 
@@ -24,8 +22,18 @@ namespace STPMP.Entity
 
         public float Price { get; set; }
 
-        public int TeamID { get; set; }
+        //public int TeamID { get; set; }
 
-        public int TaskListID { get; set; }
+        //public int TaskListID { get; set; }
+
+       public Project()
+        {
+            ID = new Random().Next();
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

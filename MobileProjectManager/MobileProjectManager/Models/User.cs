@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace STPMP.Entity
+namespace MobileProjectManager.Models
 {
-    class User
+    public class User
     {
         public bool IsOnline { get; set; }
 
@@ -13,5 +13,11 @@ namespace STPMP.Entity
         public string Name { get; set; }
 
         public byte[] Img { get; set; }
+
+        public User()
+        {
+            IsOnline = false;
+            Name = "Ivan";
+        }
     }
 }

@@ -5,13 +5,15 @@ using System.Text;
 
 using Xamarin.Forms;
 
+using MobileProjectManager.Views;
+
 namespace MobileProjectManager
 {
 	public partial class App : Application
 	{
 		public App ()
 		{
-            MainPage = new MobileProjectManager.MainPage();
+            MainPage = new NavigationPage(new ProjectListPage());
         }
 
 		protected override void OnStart ()

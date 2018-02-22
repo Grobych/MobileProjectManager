@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Entity\**" />
+    <EmbeddedResource Remove="Entity\**" />
+    <None Remove="Entity\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="2.5.0.122203" />
   </ItemGroup>
 
@@ -12,35 +18,35 @@
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="App.xaml.cs">
       <DependentUpon>*.xaml</DependentUpon>
     </Compile>
-    <Compile Update="UI\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="UI\ProfilePage.xaml.cs">
+    <Compile Update="Views\ProfilePage.xaml.cs">
       <DependentUpon>ProfilePage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="UI\TaskListPage.xaml.cs">
-      <DependentUpon>TaskListPage.xaml</DependentUpon>
+    <Compile Update="Views\ProjectCreatePage.xaml.cs">
+      <DependentUpon>ProjectCreatePage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entity\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="UI\MainPage.xaml">
+    <EmbeddedResource Update="Views\ProfilePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="UI\MasterPage.xaml">
+    <EmbeddedResource Update="Views\ProjectEditPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="UI\ProfilePage.xaml">
+    <EmbeddedResource Update="Views\ProjectInfoPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="UI\ProjectListPage.xaml">
+    <EmbeddedResource Update="Views\ProjectListPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="UI\TaskListPage.xaml">
+    <EmbeddedResource Update="Views\ProjectCreatePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\TestPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

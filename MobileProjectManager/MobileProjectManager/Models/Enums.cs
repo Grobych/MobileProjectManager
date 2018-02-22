@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace STPMP.Entity
+namespace MobileProjectManager.Models
 {
     enum TaskStatus { Opened, InProgress, Completed, Confirmed, Closed};
 
