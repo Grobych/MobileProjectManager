@@ -1,10 +1,14 @@
 ﻿using System;
 
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
+
 namespace MobileProjectManager.Models
 {
     public class Project : ICloneable
     {
-        public long ID { get; set; }
+        [BsonId]
+        public ObjectId ID { get; set; }
 
         public string Name { get; set; }
 
@@ -26,10 +30,12 @@ namespace MobileProjectManager.Models
 
         //public int TaskListID { get; set; }
 
-       public Project()
+        public Project()
         {
-            ID = new Random().Next();
+            this.Start = DateTime.Now;
+
         }
+
 
         public object Clone()
         {

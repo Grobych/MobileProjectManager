@@ -14,7 +14,7 @@
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                 <Label HorizontalOptions="Start" Text="Дедлайн:"></Label>
-                <DatePicker  Date="{Binding Deadline}" ></DatePicker>
+                <DatePicker  Date="{Binding Deadline}"  ></DatePicker>
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 <Button Text="Сохранить" Command="{Binding CreateProjectCommand}" CommandParameter="{Binding}" />

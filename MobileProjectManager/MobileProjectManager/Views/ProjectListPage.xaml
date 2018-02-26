@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MobileProjectManager.Views.ProjectListPage" Title="Список проектов">
         <StackLayout>
-            <Button Text="Новый проект" Command="{Binding CreateProjectCommand}" />
+        <Button Text="Check DB" Command="{Binding ChectDBConnectionCommand}"/>
+        <Button Text="Новый проект" Command="{Binding CreateProjectCommand}" />
             <ListView x:Name="projectList" ItemsSource="{Binding Projects}"
               SelectedItem="{Binding SelectedProject, Mode=TwoWay}" HasUnevenRows="True">
                 <ListView.ItemTemplate>

@@ -5,6 +5,8 @@ using System.ComponentModel;
 using MobileProjectManager.Views;
 using MobileProjectManager.Models;
 
+using MobileProjectManager.ViewModels.Database;
+
 namespace MobileProjectManager.ViewModels
 {
     public class ProjectListViewModel : INotifyPropertyChanged
@@ -12,6 +14,8 @@ namespace MobileProjectManager.ViewModels
         public ObservableCollection<ProjectViewModel> Projects { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public ICommand ChectDBConnectionCommand { protected set; get; }
 
         public ICommand CreateProjectCommand { protected set; get; }
         public ICommand DeleteProjectCommand { protected set; get; }
@@ -28,7 +32,9 @@ namespace MobileProjectManager.ViewModels
         public ProjectListViewModel()
         {
             Projects = new ObservableCollection<ProjectViewModel>();
+            Database.Database.GetProjectsAllFromDB(this);
             CreateProjectCommand = new Command(CreateProject);
+            ChectDBConnectionCommand = new Command(Database.Database.Connect);
             BackCommand = new Command(Back);
         }
 
@@ -62,7 +68,12 @@ namespace MobileProjectManager.ViewModels
         }
         public void AddProject(ProjectViewModel project)
         {
-            // TODO: fix bug with 2 equal project after editing one of them
+            Database.Database.SaveProjectToDB(project.Project);
+            Projects.Add(project);
+        }
+        public void AddProject(ProjectViewModel project, bool saveToDB)
+        {
+            if (saveToDB) Database.Database.SaveProjectToDB(project.Project);
             Projects.Add(project);
         }
         public void SaveProject()
@@ -73,6 +84,7 @@ namespace MobileProjectManager.ViewModels
         {
             if (project != null)
             {
+                Database.Database.DeleteProject(project.Project.ID);
                 Projects.Remove(project);
             }
         }

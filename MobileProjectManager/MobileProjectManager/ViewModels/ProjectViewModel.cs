@@ -7,6 +7,8 @@ using MobileProjectManager.Models;
 using System.Reflection;
 using System;
 
+using MongoDB.Bson;
+
 namespace MobileProjectManager.ViewModels
 {
     public class ProjectViewModel : INotifyPropertyChanged
@@ -48,6 +50,18 @@ namespace MobileProjectManager.ViewModels
             UpdateProjectCommand = new Command(UpdateCommand);
             DeleteProjectCommand = new Command(DeleteCommand);
         }
+        public ProjectViewModel(Project project, ProjectListViewModel listViewModel)
+        {
+            Project = project;
+            lvm = listViewModel;
+            EditableProject = (Project)project.Clone();
+            WorkerList = new ObservableCollection<ProfileViewModel>();
+            EditProjectCommand = new Command(EditCommand);
+            CancelEditCommand = new Command(CancelCommand);
+            CreateProjectCommand = new Command(CreateCommand);
+            UpdateProjectCommand = new Command(UpdateCommand);
+            DeleteProjectCommand = new Command(DeleteCommand);
+        }
 
         public ProjectListViewModel ListViewModel
         {
@@ -62,7 +76,7 @@ namespace MobileProjectManager.ViewModels
             }
         }
 
-        public long ID
+        public ObjectId ID
         {
             get { return Project.ID; }
             set

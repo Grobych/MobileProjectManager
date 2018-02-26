@@ -6,6 +6,8 @@ using System.Text;
 using Xamarin.Forms;
 
 using MobileProjectManager.Views;
+using MobileProjectManager.ViewModels.Database;
+using MobileProjectManager.Models;
 
 namespace MobileProjectManager
 {
@@ -13,6 +15,7 @@ namespace MobileProjectManager
 	{
 		public App ()
 		{
+            Database.Connect();
             MainPage = new NavigationPage(new ProjectListPage());
         }
 
