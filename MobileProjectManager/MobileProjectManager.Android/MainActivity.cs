@@ -6,6 +6,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Xamarin.Forms;
+using Plugin.Toasts;
 
 namespace MobileProjectManager.Droid
 {
@@ -20,6 +22,11 @@ namespace MobileProjectManager.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
+
+            DependencyService.Register<ToastNotification>();
+            // For Android pass through the activity
+            ToastNotification.Init(this);
+
             LoadApplication(new App());
         }
     }

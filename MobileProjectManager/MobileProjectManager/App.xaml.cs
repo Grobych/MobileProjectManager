@@ -16,7 +16,7 @@ namespace MobileProjectManager
 		public App ()
 		{
             Database.Connect();
-            MainPage = new NavigationPage(new ProjectListPage());
+            MainPage = new NavigationPage(new LoginPage());
         }
 
 		protected override void OnStart ()

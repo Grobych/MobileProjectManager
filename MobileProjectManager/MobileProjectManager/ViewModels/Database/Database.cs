@@ -100,7 +100,37 @@ namespace MobileProjectManager.ViewModels.Database
             }
         }
 
+        public static void AddUser(User user)
+        {
+            try
+            {
+                var collection = database.GetCollection<User>("users");
+                System.Threading.Tasks.Task task = collection.InsertOneAsync(user);
+                task.Wait();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+        public static void GetUser(User user, ref bool res)
+        {
+            var collection = database.GetCollection<User>("users");
 
- 
+            var builder = Builders<User>.Filter;
+            var filter = builder.Eq("Name", user.Name) & builder.Eq("Password", user.Password);
+            User people = collection.Find(filter).First();
+
+            if (people != null)
+            {
+                user = people;
+                res = true;
+            }
+            else
+            {
+                res = false;
+            }
+        }
+
     }
 }
