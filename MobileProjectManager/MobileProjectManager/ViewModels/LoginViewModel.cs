@@ -45,16 +45,8 @@ namespace MobileProjectManager.ViewModels
         public void TryToLogin()
         {
 
-            Console.WriteLine("LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOL");
-            Console.WriteLine("LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOL");
-            Console.WriteLine("LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOL");
-            Console.WriteLine("LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOL");
-            Console.WriteLine("LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOL");
-
             //LoginViewModel viewModel = lvm as LoginViewModel;
-            bool Res = false;
-            Database.Database.GetUser(currentUser, ref Res);
-            Console.WriteLine("Pos4");
+            bool Res = Database.Database.GetUser(currentUser);
             if (!Res)
             {
                 Utils.Toast.ShowToast("Login Failed", "Please, check you login and password", false);
@@ -68,11 +60,17 @@ namespace MobileProjectManager.ViewModels
         public void SignUP(object lvm)
         {
             LoginViewModel viewModel = lvm as LoginViewModel;
-            Database.Database.AddUser(viewModel.currentUser);
-            //Navigation.PushAsync(new ProjectListPage());
-            Navigation.InsertPageBefore(new ProjectListPage(),Navigation.NavigationStack[0]);
-
-            // TODO: to complete func
+            if (!Database.Database.CheckLogin(viewModel.currentUser))
+            {
+                Database.Database.AddUser(viewModel.currentUser);
+                currentUser.IsOnline = true;
+                Utils.Toast.ShowToast("SignUp Success", "SignUP has completed succesfully", false);
+                Navigation.PopAsync();
+            }
+            else
+            {
+                Utils.Toast.ShowToast("SignUp Failed", "There is another user with this username in system", false);
+            }
         }
         public void Logout()
         {

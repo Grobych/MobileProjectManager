@@ -113,24 +113,42 @@ namespace MobileProjectManager.ViewModels.Database
                 Console.WriteLine(e);
             }
         }
-        public static void GetUser(User user, ref bool res)
+        public static bool GetUser(User user)
         {
             var collection = database.GetCollection<User>("users");
 
             var builder = Builders<User>.Filter;
             var filter = builder.Eq("Name", user.Name) & builder.Eq("Password", user.Password);
-            User people = collection.Find(filter).First();
-
-            if (people != null)
+            var result = collection.Find(filter);
+            if (result.Count() > 0)
             {
+                User people = collection.Find(filter).First();
                 user = people;
-                res = true;
+                return true;
             }
             else
             {
-                res = false;
+                return false;
             }
         }
+
+        public static bool CheckLogin(User user)
+        {
+            var collection = database.GetCollection<User>("users");
+
+            var builder = Builders<User>.Filter;
+            var filter = builder.Eq("Name", user.Name);
+            var result = collection.Find(filter);
+            if (result.Count() > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
 
     }
 }
