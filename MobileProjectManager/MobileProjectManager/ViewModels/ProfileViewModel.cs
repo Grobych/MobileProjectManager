@@ -1,25 +1,55 @@
-﻿using System.ComponentModel;
-
+﻿using System;
+using System.ComponentModel;
+using System.Windows.Input;
 using MobileProjectManager.Models;
+using MongoDB.Bson;
+using Xamarin.Forms;
+
+using MobileProjectManager.ViewModels;
+using MobileProjectManager.Views;
 
 namespace MobileProjectManager.ViewModels
 {
     public class ProfileViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public ProjectListViewModel ProjectListView { get; set; }
+        public ICommand ToProjectListCommand { protected set; get; }
+
+        //public INavigation Navigation { get; set; }
+
+
         public User User { get; set; }
 
-        public ProfileViewModel()
+        public ProfileViewModel(User user)
         {
-            User = new User();
+            this.User = user;
+            //Console.WriteLine("ProfileViewModel Navigation: " + Navigation);
+            ProjectListView = new ProjectListViewModel();
+            //ProjectListView.Navigation = this.Navigation;
+            //Console.WriteLine("LoginViewModel.ProjectListView Navigation: " + ProjectListView.Navigation);
+
+            ToProjectListCommand = new Command(ToProjectList);
         }
-      //  public ProfileViewModel(User user)
-    //    {
-  //          User = user;
-//        }
 
+        private void ToProjectList(object obj)
+        {
+            NavigationUtil.Navigation.PushAsync(new ProjectListPage(ProjectListView));
+        }
 
-
+        public ObjectId ID
+        {
+            get { return User.ID; }
+            set
+            {
+                if (User.ID != value)
+                {
+                    User.ID = value;
+                    OnPropertyChanged("ID");
+                }
+            }
+        }
         public string Name
         {
             get { return User.Name; }
@@ -59,13 +89,6 @@ namespace MobileProjectManager.ViewModels
         //    }
         //}
 
-        public bool IsValid
-        {
-            get
-            {
-                return !string.IsNullOrEmpty(Name.Trim());
-            }
-        }
         protected void OnPropertyChanged(string propName)
         {
             if (PropertyChanged != null)

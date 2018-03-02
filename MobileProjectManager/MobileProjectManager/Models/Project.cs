@@ -26,6 +26,8 @@ namespace MobileProjectManager.Models
 
         public float Price { get; set; }
 
+        public ObjectId ProjectManager { get; set; }
+
         //public int TeamID { get; set; }
 
         //public int TaskListID { get; set; }
@@ -33,7 +35,6 @@ namespace MobileProjectManager.Models
         public Project()
         {
             this.Start = DateTime.Now;
-
         }
 
 

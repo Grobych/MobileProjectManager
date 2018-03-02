@@ -4,6 +4,8 @@
              x:Class="MobileProjectManager.Views.ProfilePage">
     <ContentPage.Content>
         <StackLayout>
+            <Label Text="ID:" FontSize="Small"/>
+            <Label Text="{Binding ID}" FontSize="Small"/>
             <Image 
                    BackgroundColor="Red"
                    HeightRequest="50"
@@ -12,7 +14,7 @@
                    VerticalOptions="CenterAndExpand"></Image>
             <Label Text="{Binding Name}" FontSize="Medium"></Label>
             <Label Text="{Binding IsOnline}" FontSize="Small"></Label>
-            
+            <Button Text="Projects" Command="{Binding ToProjectListCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

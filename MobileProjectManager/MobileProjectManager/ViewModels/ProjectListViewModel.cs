@@ -6,6 +6,8 @@ using MobileProjectManager.Views;
 using MobileProjectManager.Models;
 
 using MobileProjectManager.ViewModels.Database;
+using System.Collections.Generic;
+using System;
 
 namespace MobileProjectManager.ViewModels
 {
@@ -15,8 +17,6 @@ namespace MobileProjectManager.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ICommand ChectDBConnectionCommand { protected set; get; }
-
         public ICommand CreateProjectCommand { protected set; get; }
         public ICommand DeleteProjectCommand { protected set; get; }
         public ICommand SaveProjectCommand { protected set; get; }
@@ -25,16 +25,21 @@ namespace MobileProjectManager.ViewModels
         public ICommand BackCommand { protected set; get; }
         
         ProjectViewModel selectedProject;
-        public ProjectViewModel curerentProject { get; set; }
+        public ProjectViewModel currentProject { get; set; }
 
-        public INavigation Navigation { get; set; }
+        //public INavigation Navigation { get; set; }
 
         public ProjectListViewModel()
         {
             Projects = new ObservableCollection<ProjectViewModel>();
             Database.Database.GetProjectsAllFromDB(this);
             CreateProjectCommand = new Command(CreateProject);
-            ChectDBConnectionCommand = new Command(Database.Database.Connect);
+            BackCommand = new Command(Back);
+        }
+        public ProjectListViewModel(ObservableCollection<ProjectViewModel> list)
+        {
+            Projects = list;
+            CreateProjectCommand = new Command(CreateProject);
             BackCommand = new Command(Back);
         }
 
@@ -45,10 +50,13 @@ namespace MobileProjectManager.ViewModels
             {
                 if (selectedProject != value)
                 {
+                    //Console.WriteLine("ProjectListViewModel Navigation: " + Navigation);
+
                     selectedProject = null;
                     OnPropertyChanged("SelectedProject");
-                    curerentProject = value;
-                    Navigation.PushAsync(new ProjectInfoPage(curerentProject));
+                    currentProject = value;
+                    NavigationUtil.Navigation.PushAsync(new ProjectInfoPage(currentProject));  //TODO: fix null pointer
+                    Console.WriteLine("--------------------------------------5");
                 }
             }
         }
@@ -60,11 +68,11 @@ namespace MobileProjectManager.ViewModels
 
         public void CreateProject()
         {
-            Navigation.PushAsync(new ProjectCreatePage(new ProjectViewModel() { ListViewModel = this }));
+            NavigationUtil.Navigation.PushAsync(new ProjectCreatePage(new ProjectViewModel() { ListViewModel = this }));
         }
         public void Back()
         {
-            Navigation.PopAsync();
+            NavigationUtil.Navigation.PopAsync();
         }
         public void AddProject(ProjectViewModel project)
         {

@@ -8,6 +8,7 @@ using Xamarin.Forms;
 using MobileProjectManager.Views;
 using MobileProjectManager.ViewModels.Database;
 using MobileProjectManager.Models;
+using MobileProjectManager.ViewModels;
 
 namespace MobileProjectManager
 {
@@ -17,6 +18,7 @@ namespace MobileProjectManager
 		{
             Database.Connect();
             MainPage = new NavigationPage(new LoginPage());
+            
         }
 
 		protected override void OnStart ()

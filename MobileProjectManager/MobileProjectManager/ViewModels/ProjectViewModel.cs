@@ -14,7 +14,6 @@ namespace MobileProjectManager.ViewModels
     public class ProjectViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public INavigation Navigation { get; set; }
         ProjectListViewModel lvm;
         public ObservableCollection<ProfileViewModel> WorkerList { get; set; }
         public ProfileViewModel selectedWorker;
@@ -24,9 +23,11 @@ namespace MobileProjectManager.ViewModels
         public ICommand CreateProjectCommand { protected set; get; }
         public ICommand UpdateProjectCommand { protected set; get; }
         public ICommand DeleteProjectCommand { protected set; get; }
+        public ICommand ToProjectManagerPage { protected set; get; }
 
         public Project Project { get; set ; }
         public Project EditableProject { get; set; }
+        public User ProjectManager { get; set; }
         
         public ProjectViewModel(Project project)
         {
@@ -38,7 +39,11 @@ namespace MobileProjectManager.ViewModels
             CreateProjectCommand = new Command(CreateCommand);
             UpdateProjectCommand = new Command(UpdateCommand);
             DeleteProjectCommand = new Command(DeleteCommand);
+            ToProjectManagerPage = new Command(ToPMCommand);
         }
+
+
+
         public ProjectViewModel()
         {
             Project = new Project();
@@ -177,7 +182,7 @@ namespace MobileProjectManager.ViewModels
                         ProfileViewModel tempWorker = value;
                         selectedWorker = null;
                         OnPropertyChanged("SelectedWorker");
-                        Navigation.PushAsync(new ProfilePage(tempWorker));
+                        NavigationUtil.Navigation.PushAsync(new ProfilePage(tempWorker));
                     }
                     } catch (TargetInvocationException e)
                     {
@@ -210,7 +215,7 @@ namespace MobileProjectManager.ViewModels
         public void EditCommand(object projectObject)
         {
             EditableProject = (Project)Project.Clone();
-            lvm.Navigation.PushAsync(new ProjectEditPage(this));// { EditableProject = (Project) this.Project.Clone()});
+            NavigationUtil.Navigation.PushAsync(new ProjectEditPage(this));// { EditableProject = (Project) this.Project.Clone()});
         }
 
         public void CancelCommand()
@@ -239,13 +244,17 @@ namespace MobileProjectManager.ViewModels
         {
             ProjectViewModel pvm = project as ProjectViewModel;
             Project = EditableProject;
-            lvm.curerentProject.Project = (Project)EditableProject.Clone();
+            lvm.currentProject.Project = (Project)EditableProject.Clone();
             // TODO: fix return to prefious page
             lvm.UpdateProject(project as ProjectViewModel);
             lvm.Back();
             lvm.Back();
-            lvm.Navigation.PushAsync(new ProjectInfoPage(this));
+            NavigationUtil.Navigation.PushAsync(new ProjectInfoPage(this));
         }
 
+        private void ToPMCommand(object obj)
+        {
+            NavigationUtil.Navigation.PushAsync(new ProfilePage(new ProfileViewModel(ProjectManager)));
+        }
     }
 }

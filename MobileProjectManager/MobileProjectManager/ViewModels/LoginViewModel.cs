@@ -10,7 +10,6 @@ using Xamarin.Forms;
 
 
 using MobileProjectManager.ViewModels.Database;
-using Plugin.Toasts;
 
 namespace MobileProjectManager.ViewModels
 {
@@ -23,7 +22,7 @@ namespace MobileProjectManager.ViewModels
         public ICommand SignUPCommand { protected set; get; }
         public ICommand LogoutCommand { protected set; get; }
 
-        public INavigation Navigation { get; set; }
+       // public INavigation Navigation { get; set; }
 
 
 
@@ -54,7 +53,8 @@ namespace MobileProjectManager.ViewModels
             else
             {
                 currentUser.IsOnline = true;
-                Navigation.PushAsync(new ProjectListPage());
+                //Console.WriteLine("LoginViewModel Navigation: " + Navigation);
+                NavigationUtil.Navigation.PushAsync(new ProfilePage(new ProfileViewModel(currentUser)));
             }
         }
         public void SignUP(object lvm)
@@ -65,7 +65,7 @@ namespace MobileProjectManager.ViewModels
                 Database.Database.AddUser(viewModel.currentUser);
                 currentUser.IsOnline = true;
                 Utils.Toast.ShowToast("SignUp Success", "SignUP has completed succesfully", false);
-                Navigation.PopAsync();
+                NavigationUtil.Navigation.PopAsync();
             }
             else
             {
@@ -75,11 +75,11 @@ namespace MobileProjectManager.ViewModels
         public void Logout()
         {
             currentUser.IsOnline = false;
-            Navigation.PopToRootAsync();
+            NavigationUtil.Navigation.PopToRootAsync();
         }
         public void ToSignUp()
         {
-            Navigation.PushAsync(new SignUpPage(this));
+            NavigationUtil.Navigation.PushAsync(new SignUpPage(this));
         }
 
 

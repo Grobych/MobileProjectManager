@@ -11,7 +11,8 @@ namespace MobileProjectManager.Views
         public LoginPage()
         {
             InitializeComponent();
-            BindingContext = new LoginViewModel() { Navigation = this.Navigation };
+            NavigationUtil.Navigation = this.Navigation;
+            BindingContext = new LoginViewModel();// { Navigation = this.Navigation };
         }
     }
 

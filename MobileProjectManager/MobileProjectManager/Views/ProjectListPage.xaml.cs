@@ -6,10 +6,17 @@ namespace MobileProjectManager.Views
 {
     public partial class ProjectListPage : ContentPage
     {
+        ProjectListViewModel ViewModel { get; set; }
         public ProjectListPage()
         {
             InitializeComponent();
-            BindingContext = new ProjectListViewModel() { Navigation = this.Navigation };
+            BindingContext = new ProjectListViewModel();
+        }
+        public ProjectListPage(ProjectListViewModel plvm)
+        {
+            InitializeComponent();
+            ViewModel = plvm;
+            this.BindingContext = ViewModel;
         }
     }
 }
