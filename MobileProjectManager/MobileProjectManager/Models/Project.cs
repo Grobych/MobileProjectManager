@@ -26,7 +26,7 @@ namespace MobileProjectManager.Models
 
         public float Price { get; set; }
 
-        public ObjectId ProjectManager { get; set; }
+        public User ProjectManager { get; set; }
 
         //public int TeamID { get; set; }
 

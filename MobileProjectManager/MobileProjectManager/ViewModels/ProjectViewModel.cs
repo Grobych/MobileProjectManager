@@ -8,6 +8,7 @@ using System.Reflection;
 using System;
 
 using MongoDB.Bson;
+using MobileProjectManager.ViewModels.Utils;
 
 namespace MobileProjectManager.ViewModels
 {
@@ -27,7 +28,7 @@ namespace MobileProjectManager.ViewModels
 
         public Project Project { get; set ; }
         public Project EditableProject { get; set; }
-        public User ProjectManager { get; set; }
+ //       public ObjectId ProjectManager { get; set; }
         
         public ProjectViewModel(Project project)
         {
@@ -169,6 +170,22 @@ namespace MobileProjectManager.ViewModels
             //    }
             //}
         }
+
+        public string ProjectManagerName
+        {
+            get {
+                return Project.ProjectManager.Name;
+            }
+            set
+            {
+                if (Project.ProjectManager.Name != value)
+                {
+                    Project.ProjectManager.Name = value;
+                    OnPropertyChanged("ProjectManagerName");
+                }
+            }
+        }
+
         public ProfileViewModel SelectedWorker
         {
             get { return selectedWorker; }
@@ -224,9 +241,11 @@ namespace MobileProjectManager.ViewModels
         }
         public void CreateCommand(object project)
         {
-            if (project is ProjectViewModel projectViewModel && projectViewModel.IsValid)
+            ProjectViewModel pvm = project as ProjectViewModel;
+            if (pvm.IsValid)
             {
-                lvm.AddProject(projectViewModel);
+                pvm.Project.ProjectManager = Auth.CurrentUser;
+                lvm.AddProject(pvm);
                 lvm.Back();
             }
             else
@@ -254,7 +273,8 @@ namespace MobileProjectManager.ViewModels
 
         private void ToPMCommand(object obj)
         {
-            NavigationUtil.Navigation.PushAsync(new ProfilePage(new ProfileViewModel(ProjectManager)));
+            Utils.Toast.ShowToast("OK", "lolol", false);
+            //NavigationUtil.Navigation.PushAsync(new ProfilePage(new ProfileViewModel(ProjectManager)));
         }
     }
 }

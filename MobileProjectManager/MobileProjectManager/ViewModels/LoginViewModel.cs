@@ -10,6 +10,7 @@ using Xamarin.Forms;
 
 
 using MobileProjectManager.ViewModels.Database;
+using MobileProjectManager.ViewModels.Utils;
 
 namespace MobileProjectManager.ViewModels
 {
@@ -39,15 +40,16 @@ namespace MobileProjectManager.ViewModels
 
         public void TryToLogin()
         {
-            bool Res = Database.Database.GetUser(currentUser);
+            bool Res = Database.Database.GetUser(ref currentUser);
             if (!Res)
             {
                 Utils.Toast.ShowToast("Login Failed", "Please, check you login and password", false);
             }
             else
             {
-                currentUser.IsOnline = true;
-                NavigationUtil.Navigation.PushAsync(new ProfilePage(new ProfileViewModel(currentUser)));
+                Auth.CurrentUser = currentUser;
+                Auth.CurrentUser.IsOnline = true;
+                NavigationUtil.Navigation.PushAsync(new ProfilePage(new ProfileViewModel(Auth.CurrentUser)));
             }
         }
         public void SignUP(object lvm)
@@ -55,7 +57,7 @@ namespace MobileProjectManager.ViewModels
             LoginViewModel viewModel = lvm as LoginViewModel;
             if (!Database.Database.CheckLogin(viewModel.currentUser))
             {
-                Database.Database.AddUser(viewModel.currentUser);
+                Database.Database.AddUser(ref viewModel.currentUser);
                 currentUser.IsOnline = true;
                 Utils.Toast.ShowToast("SignUp Success", "SignUP has completed succesfully", false);
                 NavigationUtil.Navigation.PopAsync();

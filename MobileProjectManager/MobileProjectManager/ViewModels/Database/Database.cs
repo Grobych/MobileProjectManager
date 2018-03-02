@@ -98,7 +98,7 @@ namespace MobileProjectManager.ViewModels.Database
             }
         }
 
-        public static void AddUser(User user)
+        public static void AddUser(ref User user)
         {
             try
             {
@@ -111,7 +111,7 @@ namespace MobileProjectManager.ViewModels.Database
                 Console.WriteLine(e);
             }
         }
-        public static bool GetUser(User user)
+        public static bool GetUser(ref User user)
         {
             var collection = database.GetCollection<User>("users");
 
