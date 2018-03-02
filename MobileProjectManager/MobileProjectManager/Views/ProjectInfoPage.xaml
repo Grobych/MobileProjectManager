@@ -12,8 +12,10 @@
                 <Label Text="Статус"/>
                 <Label Text="{Binding Project.Status}" FontSize="Medium" />
                 <Label Text="Project Manager"/>
-                <Label Text="{Binding ProjectManagerName}" >
-                    <!--<TapGestureRecognizer Command="{Binding ToProjectManagerPage}" NumberOfTapsRequired="1" />-->
+                <Label Text="{Binding ProjectManagerName}" HorizontalOptions="FillAndExpand" FontSize="Medium" >
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ToProjectManagerPage}" NumberOfTapsRequired="1" />
+                    </Label.GestureRecognizers>
                 </Label>
                 
                 <Label Text="Клиент" />

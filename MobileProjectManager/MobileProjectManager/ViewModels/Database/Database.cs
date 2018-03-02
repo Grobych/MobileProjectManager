@@ -34,6 +34,22 @@ namespace MobileProjectManager.ViewModels.Database
             if (client == null) return false;
             return true;
         }
+
+        public static User GetUserFromId(ObjectId id)
+        {
+            var collection = database.GetCollection<User>("users");
+            var filter = Builders<User>.Filter.Eq("ID", id);
+            var result = collection.Find(filter);
+            if (result.Count() > 0)
+            {
+                return collection.Find(filter).First();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static void SaveProjectToDB(Project project)
         {
             try

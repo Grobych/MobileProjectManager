@@ -55,6 +55,7 @@ namespace MobileProjectManager.ViewModels
             CreateProjectCommand = new Command(CreateCommand);
             UpdateProjectCommand = new Command(UpdateCommand);
             DeleteProjectCommand = new Command(DeleteCommand);
+            ToProjectManagerPage = new Command(ToPMCommand);
         }
         public ProjectViewModel(Project project, ProjectListViewModel listViewModel)
         {
@@ -67,6 +68,7 @@ namespace MobileProjectManager.ViewModels
             CreateProjectCommand = new Command(CreateCommand);
             UpdateProjectCommand = new Command(UpdateCommand);
             DeleteProjectCommand = new Command(DeleteCommand);
+            ToProjectManagerPage = new Command(ToPMCommand);
         }
 
         public ProjectListViewModel ListViewModel
@@ -274,7 +276,8 @@ namespace MobileProjectManager.ViewModels
         private void ToPMCommand(object obj)
         {
             Utils.Toast.ShowToast("OK", "lolol", false);
-            //NavigationUtil.Navigation.PushAsync(new ProfilePage(new ProfileViewModel(ProjectManager)));
+            //User PM = Database.Database.GetUserFromId(Project.)
+            NavigationUtil.Navigation.PushAsync(new ProfilePage(new ProfileViewModel(Project.ProjectManager)));
         }
     }
 }
