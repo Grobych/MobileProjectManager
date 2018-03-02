@@ -20,7 +20,6 @@ namespace MobileProjectManager.ViewModels.Database
         {
             try
             {
-                //string connectionString = "mongodb://grobych:<grob1995grob>@cluster0-shard-00-00-6h2to.mongodb.net:27017,cluster0-shard-00-01-6h2to.mongodb.net:27017,cluster0-shard-00-02-6h2to.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin";
                 client = new MongoClient(connectionString);
                 database = client.GetDatabase("ProjectManager");
                 Console.WriteLine("OK");
@@ -39,7 +38,6 @@ namespace MobileProjectManager.ViewModels.Database
         {
             try
             {
-                //var database = client.GetDatabase("ProjectManager");
                 var collection = database.GetCollection<Project>("projects");
                 System.Threading.Tasks.Task task = collection.InsertOneAsync(project);
                 task.Wait();

@@ -215,7 +215,7 @@ namespace MobileProjectManager.ViewModels
         public void EditCommand(object projectObject)
         {
             EditableProject = (Project)Project.Clone();
-            NavigationUtil.Navigation.PushAsync(new ProjectEditPage(this));// { EditableProject = (Project) this.Project.Clone()});
+            NavigationUtil.Navigation.PushAsync(new ProjectEditPage(this));
         }
 
         public void CancelCommand()

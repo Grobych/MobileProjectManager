@@ -7,7 +7,6 @@ namespace MobileProjectManager.ViewModels
 {
     class NavigationUtil
     {
-        public static INavigation Navigation { get; set; }
-        
+        public static INavigation Navigation { get; set; }       
     }
 }

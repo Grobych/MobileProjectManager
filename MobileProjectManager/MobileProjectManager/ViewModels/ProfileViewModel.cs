@@ -17,19 +17,12 @@ namespace MobileProjectManager.ViewModels
         public ProjectListViewModel ProjectListView { get; set; }
         public ICommand ToProjectListCommand { protected set; get; }
 
-        //public INavigation Navigation { get; set; }
-
-
         public User User { get; set; }
 
         public ProfileViewModel(User user)
         {
             this.User = user;
-            //Console.WriteLine("ProfileViewModel Navigation: " + Navigation);
             ProjectListView = new ProjectListViewModel();
-            //ProjectListView.Navigation = this.Navigation;
-            //Console.WriteLine("LoginViewModel.ProjectListView Navigation: " + ProjectListView.Navigation);
-
             ToProjectListCommand = new Command(ToProjectList);
         }
 

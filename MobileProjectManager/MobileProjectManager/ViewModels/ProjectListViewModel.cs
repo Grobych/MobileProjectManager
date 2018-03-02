@@ -27,8 +27,6 @@ namespace MobileProjectManager.ViewModels
         ProjectViewModel selectedProject;
         public ProjectViewModel currentProject { get; set; }
 
-        //public INavigation Navigation { get; set; }
-
         public ProjectListViewModel()
         {
             Projects = new ObservableCollection<ProjectViewModel>();
@@ -50,13 +48,10 @@ namespace MobileProjectManager.ViewModels
             {
                 if (selectedProject != value)
                 {
-                    //Console.WriteLine("ProjectListViewModel Navigation: " + Navigation);
-
                     selectedProject = null;
                     OnPropertyChanged("SelectedProject");
                     currentProject = value;
-                    NavigationUtil.Navigation.PushAsync(new ProjectInfoPage(currentProject));  //TODO: fix null pointer
-                    Console.WriteLine("--------------------------------------5");
+                    NavigationUtil.Navigation.PushAsync(new ProjectInfoPage(currentProject));
                 }
             }
         }
@@ -107,7 +102,6 @@ namespace MobileProjectManager.ViewModels
                     break;
                 }
             }
-            // TODO: fix update ProjectInfoPage
         }
     }
 }

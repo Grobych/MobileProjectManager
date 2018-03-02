@@ -22,10 +22,6 @@ namespace MobileProjectManager.ViewModels
         public ICommand SignUPCommand { protected set; get; }
         public ICommand LogoutCommand { protected set; get; }
 
-       // public INavigation Navigation { get; set; }
-
-
-
         public LoginViewModel()
         {
             currentUser = new User();
@@ -43,8 +39,6 @@ namespace MobileProjectManager.ViewModels
 
         public void TryToLogin()
         {
-
-            //LoginViewModel viewModel = lvm as LoginViewModel;
             bool Res = Database.Database.GetUser(currentUser);
             if (!Res)
             {
@@ -53,7 +47,6 @@ namespace MobileProjectManager.ViewModels
             else
             {
                 currentUser.IsOnline = true;
-                //Console.WriteLine("LoginViewModel Navigation: " + Navigation);
                 NavigationUtil.Navigation.PushAsync(new ProfilePage(new ProfileViewModel(currentUser)));
             }
         }
