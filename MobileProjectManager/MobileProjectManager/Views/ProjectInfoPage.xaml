@@ -50,7 +50,9 @@
                 <Label HorizontalOptions="Start" Text="Дедлайн:"></Label>
                 <Label HorizontalOptions="End" Text="{Binding Project.Deadline}" FontSize="Medium"></Label>
             </StackLayout>
-            <Button Text="Редактировать" Command="{Binding EditProjectCommand}" CommandParameter="{Binding}"/>
+            <Button Text="Редактировать" 
+                    Command="{Binding EditProjectCommand}" 
+                    IsEnabled="{Binding IsUserPM}"/>
             <StackLayout Orientation="Vertical">
                 <Label Text="Работники в проекте:"></Label>
                 <ListView x:Name="workerList" ItemsSource="{Binding WorkerList}"

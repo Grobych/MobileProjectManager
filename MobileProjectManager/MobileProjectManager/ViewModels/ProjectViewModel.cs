@@ -185,6 +185,15 @@ namespace MobileProjectManager.ViewModels
             //}
         }
 
+        public bool IsUserPM
+        {
+            get
+            {
+                bool res = (Auth.CurrentUser.ID == Project.ProjectManager.ID);
+                return res;
+            }
+        }
+
         public string ProjectManagerName
         {
             get {
