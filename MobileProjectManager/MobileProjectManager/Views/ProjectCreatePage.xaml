@@ -11,6 +11,8 @@
                 <Entry Text="{Binding Client}" FontSize="Medium" />
                 <Label Text="Описание" />
                 <Entry Text="{Binding Description}" FontSize="Small" />
+                <Label Text="Cost"/>
+                <Entry Text="{Binding Price}" FontSize="Medium"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                 <Label HorizontalOptions="Start" Text="Дедлайн:"></Label>

@@ -133,6 +133,18 @@ namespace MobileProjectManager.ViewModels
                 }
             }
         }
+        public float Price
+        {
+            get { return Project.Price; }
+            set
+            {
+                if (Project.Price != value)
+                {
+                    Project.Price = value;
+                    OnPropertyChanged("Price");
+                }
+            }
+        }
         public DateTime Deadline
         {
             get { return Project.Deadline; }
@@ -222,7 +234,8 @@ namespace MobileProjectManager.ViewModels
             {
                 return ((!string.IsNullOrEmpty(Name)) ||
                     (!string.IsNullOrEmpty(Client)) ||
-                    (!string.IsNullOrEmpty(Description)));
+                    (!string.IsNullOrEmpty(Description))) ||
+                    (!float.IsNaN(Price));
             }
         }
         protected void OnPropertyChanged(string propName)

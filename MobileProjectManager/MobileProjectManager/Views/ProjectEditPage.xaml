@@ -13,6 +13,8 @@
                 <Entry Text="{Binding EditableProject.Client}" FontSize="Medium" />
                 <Label Text="Описание" />
                 <Entry Text="{Binding EditableProject.Description}" FontSize="Small" />
+                <Label Text="Cost"/>
+                <Entry Text="{Binding EditableProject.Price}" FontSize="Medium"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 <Label HorizontalOptions="Start" Text="Начало:"></Label>
