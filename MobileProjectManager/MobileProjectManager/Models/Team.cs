@@ -9,22 +9,22 @@ using MongoDB.Driver;
 
 namespace MobileProjectManager.Models
 {
-    class Team
+    public class Team
     {
         [BsonId]
-        public ObjectId Id { get; set; }
+        public ObjectId ID { get; set; }
 
         public string Name { get; set; }
 
         public ObjectId ManagerID { get; set; }
 
-        public List<ObjectId> WorkersId { get; set; }
+        public List<ObjectId> WorkersID { get; set; }
 
         public Team(string Name, ObjectId managerId)
         {
             this.Name = Name;
             this.ManagerID = managerId;
-            WorkersId = new List<ObjectId>();
+            WorkersID = new List<ObjectId>();
         }
     }
 }

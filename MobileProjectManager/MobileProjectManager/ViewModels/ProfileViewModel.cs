@@ -7,6 +7,7 @@ using Xamarin.Forms;
 
 using MobileProjectManager.ViewModels;
 using MobileProjectManager.Views;
+using System.Collections.Generic;
 
 namespace MobileProjectManager.ViewModels
 {
@@ -37,6 +38,11 @@ namespace MobileProjectManager.ViewModels
         }
         private void ToTeamsList(object obj)
         {
+            List<TeamViewModel> teams = Database.Database.GetTeamsFromDB(this.User);
+            foreach (var item in teams)
+            {
+                this.TeamListView.TeamList.Add(item);
+            }
             NavigationUtil.Navigation.PushAsync(new TeamListPage(TeamListView));
         }
         public ObjectId ID

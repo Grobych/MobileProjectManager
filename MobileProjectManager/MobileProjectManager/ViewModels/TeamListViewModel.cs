@@ -37,7 +37,7 @@ namespace MobileProjectManager.ViewModels
                 if (selectedTeam != value)
                 {
                     selectedTeam = null;
-                    OnPropertyChanged("SelectedProject");
+                    OnPropertyChanged("SelectedTeam");
                     currentTeam = value;
                     NavigationUtil.Navigation.PushAsync(new TeamPage(currentTeam));
                 }
@@ -55,7 +55,8 @@ namespace MobileProjectManager.ViewModels
             Debug.WriteLine(TeamName);
             TeamViewModel tvm = new TeamViewModel(TeamName, this.Creator);
             TeamList.Add(tvm);
-
+            Team t = tvm.Team;
+            Database.Database.AddTeamToDB(ref t);
         }
     }
 }

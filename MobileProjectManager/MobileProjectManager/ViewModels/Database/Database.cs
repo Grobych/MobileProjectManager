@@ -166,7 +166,7 @@ namespace MobileProjectManager.ViewModels.Database
 
             var filter = new BsonDocument();
             var team = collectionTeam.FindSync(filter).First();
-            IEnumerable<ObjectId> ids = team.WorkersId.ToArray();
+            IEnumerable<ObjectId> ids = team.WorkersID.ToArray();
             var filterID = Builders<User>.Filter.In(user => user.ID, ids).ToBsonDocument();
             List<User> result = collectionUser.Find(filterID).ToList();
             return result;
@@ -187,7 +187,29 @@ namespace MobileProjectManager.ViewModels.Database
                 return false;
             }
         }
-
+        public static void AddTeamToDB(ref Team team)
+        {
+            var collection = database.GetCollection<Team>("teams");
+            collection.InsertOne(team);
+        }
+        public static List<TeamViewModel> GetTeamsFromDB(User user)
+        {
+            List<TeamViewModel> list = new List<TeamViewModel>();
+            var collection = database.GetCollection<Team>("teams");
+            var builder = Builders<Team>.Filter;
+            var filter = builder.Eq("ManagerID", user.ID) | builder.Eq("WorkersID", user.ID);
+            List<Team> res = collection.FindSync(filter).ToList();
+            foreach (var item in res)
+            {
+                TeamViewModel temp = new TeamViewModel(item.Name, new ProfileViewModel(GetUser(item.ManagerID)));
+                foreach (var i in item.WorkersID)
+                {
+                    temp.Workers.Add(new ProfileViewModel(GetUser(i)));
+                }
+                list.Add(temp);
+            }
+            return list;
+        }
 
     }
 }

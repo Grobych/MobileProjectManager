@@ -17,7 +17,7 @@ namespace MobileProjectManager.ViewModels
 
         public ProfileViewModel Manager { get; set; }
         public ObservableCollection<ProfileViewModel> Workers { get; set; }
-        Team Team { get; set; }
+        public Team Team { get; set; }
 
         ProfileViewModel selectedUser;
         public ProfileViewModel CurrentWorker { get; set; }
