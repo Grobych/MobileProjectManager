@@ -297,8 +297,6 @@ namespace MobileProjectManager.ViewModels
 
         private void ToPMCommand(object obj)
         {
-            Utils.Toast.ShowToast("OK", "lolol", false);
-            //User PM = Database.Database.GetUserFromId(Project.)
             NavigationUtil.Navigation.PushAsync(new ProfilePage(new ProfileViewModel(Project.ProjectManager)));
         }
     }

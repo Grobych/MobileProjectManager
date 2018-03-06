@@ -14,8 +14,11 @@ namespace MobileProjectManager.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        TeamListViewModel TeamListView { get; set; }
         public ProjectListViewModel ProjectListView { get; set; }
         public ICommand ToProjectListCommand { protected set; get; }
+        public ICommand ToTeamListCommand { protected set; get; }
+
 
         public User User { get; set; }
 
@@ -24,13 +27,18 @@ namespace MobileProjectManager.ViewModels
             this.User = user;
             ProjectListView = new ProjectListViewModel();
             ToProjectListCommand = new Command(ToProjectList);
+            ToTeamListCommand = new Command(ToTeamsList);
+            TeamListView = new TeamListViewModel(this);
         }
 
         private void ToProjectList(object obj)
         {
             NavigationUtil.Navigation.PushAsync(new ProjectListPage(ProjectListView));
         }
-
+        private void ToTeamsList(object obj)
+        {
+            NavigationUtil.Navigation.PushAsync(new TeamListPage(TeamListView));
+        }
         public ObjectId ID
         {
             get { return User.ID; }

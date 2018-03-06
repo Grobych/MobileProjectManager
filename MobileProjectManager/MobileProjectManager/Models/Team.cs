@@ -12,12 +12,19 @@ namespace MobileProjectManager.Models
     class Team
     {
         [BsonId]
-        ObjectId Id { get; set; }
+        public ObjectId Id { get; set; }
 
-        string Name { get; set; }
+        public string Name { get; set; }
 
-        ObjectId ManagerID { get; set; }
+        public ObjectId ManagerID { get; set; }
 
-        Collection<ObjectId> WorkersId { get; set; }
+        public List<ObjectId> WorkersId { get; set; }
+
+        public Team(string Name, ObjectId managerId)
+        {
+            this.Name = Name;
+            this.ManagerID = managerId;
+            WorkersId = new List<ObjectId>();
+        }
     }
 }

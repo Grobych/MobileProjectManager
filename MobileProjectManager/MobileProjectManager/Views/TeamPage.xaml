@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileProjectManager.Views.TeamPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="Medium" />
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Team Manager:  " WidthRequest="100"/>
+                <Image BackgroundColor="Red" HeightRequest="50" WidthRequest="50"/>
+                <Label Text="{Binding TeamManagerName}" HorizontalOptions="End" FontSize="Medium" />
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ToTeamManagerPageCommand}" NumberOfTapsRequired="1" />
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
+            <ListView ItemsSource="{Binding Workers}"
+              SelectedItem="{Binding SelectedUser, Mode=TwoWay}" HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout>
+                                    <Image BackgroundColor="Red" HeightRequest="50" WidthRequest="50"/>
+                                    <Label Text="{Binding Name}" HorizontalOptions="FillAndExpand" FontSize="Medium" />
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ToProfilePage}" NumberOfTapsRequired="1" />
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

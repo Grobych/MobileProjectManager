@@ -49,7 +49,6 @@ namespace MobileProjectManager.ViewModels.Database
                 return null;
             }
         }
-
         public static void SaveProjectToDB(Project project)
         {
             try
@@ -113,7 +112,6 @@ namespace MobileProjectManager.ViewModels.Database
                 }
             }
         }
-
         public static void AddUser(ref User user)
         {
             try
@@ -145,7 +143,34 @@ namespace MobileProjectManager.ViewModels.Database
                 return false;
             }
         }
+        public static User GetUser(ObjectId id)
+        {
+            var collection = database.GetCollection<User>("users");
+            var builder = Builders<User>.Filter;
+            var filter = builder.Eq("_id", id);
+            var result = collection.Find(filter);
+            if (result.Count() > 0)
+            {
+                User user = collection.Find(filter).First();
+                return user;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public static List<User> GetUsersFromTeam(ObjectId teamID)
+        {
+            var collectionTeam = database.GetCollection<Team>("teams");
+            var collectionUser = database.GetCollection<User>("users");
 
+            var filter = new BsonDocument();
+            var team = collectionTeam.FindSync(filter).First();
+            IEnumerable<ObjectId> ids = team.WorkersId.ToArray();
+            var filterID = Builders<User>.Filter.In(user => user.ID, ids).ToBsonDocument();
+            List<User> result = collectionUser.Find(filterID).ToList();
+            return result;
+        }
         public static bool CheckLogin(User user)
         {
             var collection = database.GetCollection<User>("users");

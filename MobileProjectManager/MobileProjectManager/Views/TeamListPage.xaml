@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileProjectManager.Views.TeamListPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Button Text="New Team" Command="{Binding CreateTeamCommand}" />
+            <ListView ItemsSource="{Binding TeamList}"
+              SelectedItem="{Binding SelectedTeam, Mode=TwoWay}" HasUnevenRows="True" HorizontalOptions="CenterAndExpand">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" >
+                                    <Label Text="{Binding Name}" FontSize="Medium" HorizontalOptions="Start"/>
+                                    <Label Text="{Binding Role}" FontSize="Small" HorizontalOptions="End" />
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
