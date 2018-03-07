@@ -8,6 +8,7 @@ using Android.Widget;
 using Android.OS;
 using Xamarin.Forms;
 using Plugin.Toasts;
+using Acr.UserDialogs;
 
 namespace MobileProjectManager.Droid
 {
@@ -26,6 +27,10 @@ namespace MobileProjectManager.Droid
             DependencyService.Register<ToastNotification>();
             // For Android pass through the activity
             ToastNotification.Init(this);
+
+            UserDialogs.Init(this);
+
+            //Mvx.RegisterSingleton<IUserDialogs>(() => UserDialogs.Instance);
 
             LoadApplication(new App());
         }

@@ -1,10 +1,12 @@
 ﻿using MobileProjectManager.Models;
 using MobileProjectManager.ViewModels.Utils;
 using MobileProjectManager.Views;
+using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -23,7 +25,7 @@ namespace MobileProjectManager.ViewModels
         public ProfileViewModel CurrentWorker { get; set; }
 
         public ICommand ToTeamManagerPageCommand { protected set; get; }
-
+        public ICommand AddWorkerCommand { protected set; get; }
 
 
         public TeamViewModel(string TeamName, ProfileViewModel creator)
@@ -32,7 +34,48 @@ namespace MobileProjectManager.ViewModels
             this.Workers = new ObservableCollection<ProfileViewModel>();
             Team = new Team(TeamName, creator.ID);
             ToTeamManagerPageCommand = new Command(ToTeamManagerPage);
+            AddWorkerCommand = new Command(AddWorkerAsync);
             //GetWorkersFromDB();
+        }
+        public TeamViewModel(Team team)
+        {
+            this.Manager = new ProfileViewModel(Database.Database.GetUserFromId(team.ManagerID));
+            this.Workers = new ObservableCollection<ProfileViewModel>();
+            foreach (var item in team.WorkersID)
+            {
+                this.Workers.Add(new ProfileViewModel(Database.Database.GetUserFromId(item)));
+            }
+            this.Team = team;
+            ToTeamManagerPageCommand = new Command(ToTeamManagerPage);
+            AddWorkerCommand = new Command(AddWorkerAsync);
+            //GetWorkersFromDB();
+        }
+
+        private async void AddWorkerAsync(object obj)
+        {
+            string UserName = await Utils.InputDialog.InputBox(NavigationUtil.Navigation);
+            User user = Database.Database.GetUser(UserName);
+            if (user == null)
+            {
+                Toast.ShowToast("Error", "User not found!", false);
+                return;
+            }
+            BsonDocument bson = new BsonDocument();
+            Debug.WriteLine(Team.ID);
+            bson.Add("TeamId", Team.ID);
+            Debug.WriteLine(bson.GetValue("TeamId"));
+            Debug.WriteLine(bson.GetValue("TeamId").AsObjectId);
+            bson.Add("TeamName", Team.Name);
+            bson.Add("UserName", Auth.CurrentUser.Name);
+            Notification notification = new Notification
+            {
+                From = Auth.CurrentUser.ID,
+                To = user.ID,
+                Type = NotificationType.InviteToTeam,
+                Line = bson 
+            };
+            Database.Database.AddNotification(ref notification);
+            Toast.ShowToast("Complete!", "invite has been sended", false);
         }
 
         private void GetWorkersFromDB(Team team)
@@ -46,14 +89,18 @@ namespace MobileProjectManager.ViewModels
             this.Workers = workers;
         }
 
-        TeamViewModel(Team team)
+        public ObjectId ID
         {
-            User Manager = Database.Database.GetUser(team.ManagerID);
-            this.Manager = new ProfileViewModel(Manager);
+            get { return Team.ID; }
+            set
+            {
+                if (Team.ID != value)
+                {
+                    Team.ID = value;
+                    OnPropertyChanged("ID");
+                }
+            }
         }
-
-
-
         public string TeamManagerName
         {
             get

@@ -4,6 +4,7 @@
              x:Class="MobileProjectManager.Views.TeamPage">
     <ContentPage.Content>
         <StackLayout>
+            <Label Text="{Binding ID}" FontSize="Small"/>
             <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="Medium" />
             <StackLayout Orientation="Horizontal">
                 <Label Text="Team Manager:  " WidthRequest="100"/>
@@ -13,6 +14,7 @@
                     <TapGestureRecognizer Command="{Binding ToTeamManagerPageCommand}" NumberOfTapsRequired="1" />
                 </StackLayout.GestureRecognizers>
             </StackLayout>
+            <Button Text="Add Worker" Command="{Binding AddWorkerCommand}"/>
             <ListView ItemsSource="{Binding Workers}"
               SelectedItem="{Binding SelectedUser, Mode=TwoWay}" HasUnevenRows="True">
                 <ListView.ItemTemplate>
@@ -20,7 +22,7 @@
                         <ViewCell>
                             <ViewCell.View>
                                 <StackLayout>
-                                    <Image BackgroundColor="Red" HeightRequest="50" WidthRequest="50"/>
+                                    <Image BackgroundColor="Green" HeightRequest="50" WidthRequest="50"/>
                                     <Label Text="{Binding Name}" HorizontalOptions="FillAndExpand" FontSize="Medium" />
                                     <StackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding ToProfilePage}" NumberOfTapsRequired="1" />

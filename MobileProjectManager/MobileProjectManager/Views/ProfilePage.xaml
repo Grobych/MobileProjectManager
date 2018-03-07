@@ -13,6 +13,7 @@
                 </StackLayout>
                 <Button Text="Projects" Command="{Binding ToProjectListCommand}"/>
                 <Button Text="Teams" Command="{Binding ToTeamListCommand}"/>
+                <Button Text="Notifications" Command="{Binding ToNotificationListCommand}"/>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

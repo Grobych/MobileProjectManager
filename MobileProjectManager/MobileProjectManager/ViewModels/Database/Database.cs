@@ -63,6 +63,7 @@ namespace MobileProjectManager.ViewModels.Database
         }
         public async static void GetProjectsAllFromDB(ProjectListViewModel model)
         {
+            //TODO: Rewrite with Project, not ViewModel
             var collection = database.GetCollection<Project>("projects");
             var filter = new BsonDocument();
             var projects = await collection.Find(filter).ToListAsync();
@@ -112,6 +113,24 @@ namespace MobileProjectManager.ViewModels.Database
                 }
             }
         }
+
+        internal static Team GetTeam(ObjectId id)
+        {
+            var collection = database.GetCollection<Team>("teams");
+            var builder = Builders<Team>.Filter;
+            var filter = builder.Eq("_id", id);
+            var result = collection.Find(filter);
+            if (result.Count() > 0)
+            {
+                Team user = collection.Find(filter).First();
+                return user;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static void AddUser(ref User user)
         {
             try
@@ -128,7 +147,6 @@ namespace MobileProjectManager.ViewModels.Database
         public static bool GetUser(ref User user)
         {
             var collection = database.GetCollection<User>("users");
-
             var builder = Builders<User>.Filter;
             var filter = builder.Eq("Name", user.Name) & builder.Eq("Password", user.Password);
             var result = collection.Find(filter);
@@ -148,6 +166,22 @@ namespace MobileProjectManager.ViewModels.Database
             var collection = database.GetCollection<User>("users");
             var builder = Builders<User>.Filter;
             var filter = builder.Eq("_id", id);
+            var result = collection.Find(filter);
+            if (result.Count() > 0)
+            {
+                User user = collection.Find(filter).First();
+                return user;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public static User GetUser(string name)
+        {
+            var collection = database.GetCollection<User>("users");
+            var builder = Builders<User>.Filter;
+            var filter = builder.Eq("Name", name);
             var result = collection.Find(filter);
             if (result.Count() > 0)
             {
@@ -192,24 +226,40 @@ namespace MobileProjectManager.ViewModels.Database
             var collection = database.GetCollection<Team>("teams");
             collection.InsertOne(team);
         }
-        public static List<TeamViewModel> GetTeamsFromDB(User user)
+        public static List<Team> GetTeamsFromDB(User user)
         {
-            List<TeamViewModel> list = new List<TeamViewModel>();
             var collection = database.GetCollection<Team>("teams");
             var builder = Builders<Team>.Filter;
             var filter = builder.Eq("ManagerID", user.ID) | builder.Eq("WorkersID", user.ID);
             List<Team> res = collection.FindSync(filter).ToList();
-            foreach (var item in res)
-            {
-                TeamViewModel temp = new TeamViewModel(item.Name, new ProfileViewModel(GetUser(item.ManagerID)));
-                foreach (var i in item.WorkersID)
-                {
-                    temp.Workers.Add(new ProfileViewModel(GetUser(i)));
-                }
-                list.Add(temp);
-            }
-            return list;
+            return res;
         }
+        public static void UpdateTeam(Team team)
+        {
+            var collection = database.GetCollection<Team>("teams");
+            var filter = Builders<Team>.Filter.Eq(s => s.ID, team.ID);
+            var result = collection.ReplaceOneAsync(filter, team);
+        }
+        public static void AddNotification(ref Notification notification)
+        {
+            var collection = database.GetCollection<Notification>("notifications");
+            collection.InsertOne(notification);
+        }
+        public static void DeleteNotification(ObjectId ID)
+        {
+            var collection = database.GetCollection<Notification>("notifications");
+            var filter = Builders<Notification>.Filter.Eq("ID", ID);
+            var projects = collection.DeleteOneAsync(filter);
+        }
+        public static List<Notification> getNotifications(User user)
+        {
+            var collection = database.GetCollection<Notification>("notifications");
+            var builder = Builders<Notification>.Filter;
+            var filter = builder.Eq("To", user.ID);
+            List<Notification> res = collection.FindSync(filter).ToList();
+            return res;
+        }
+
 
     }
 }

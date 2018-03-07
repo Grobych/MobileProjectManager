@@ -54,9 +54,9 @@ namespace MobileProjectManager.ViewModels
             string TeamName = await Utils.InputDialog.InputBox(NavigationUtil.Navigation);
             Debug.WriteLine(TeamName);
             TeamViewModel tvm = new TeamViewModel(TeamName, this.Creator);
-            TeamList.Add(tvm);
             Team t = tvm.Team;
             Database.Database.AddTeamToDB(ref t);
+            TeamList.Add(tvm);
         }
     }
 }
