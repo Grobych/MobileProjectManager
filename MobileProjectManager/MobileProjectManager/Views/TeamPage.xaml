@@ -21,7 +21,7 @@
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
-                                <StackLayout>
+                                <StackLayout Orientation="Horizontal" >
                                     <Image BackgroundColor="Green" HeightRequest="50" WidthRequest="50"/>
                                     <Label Text="{Binding Name}" HorizontalOptions="FillAndExpand" FontSize="Medium" />
                                     <StackLayout.GestureRecognizers>
