@@ -241,9 +241,9 @@ namespace MobileProjectManager.ViewModels
         {
             get
             {
-                return ((!string.IsNullOrEmpty(Name)) ||
-                    (!string.IsNullOrEmpty(Client)) ||
-                    (!string.IsNullOrEmpty(Description))) ||
+                return ((!string.IsNullOrEmpty(Name)) &
+                    (!string.IsNullOrEmpty(Client)) &
+                    (!string.IsNullOrEmpty(Description))) &
                     (!float.IsNaN(Price));
             }
         }
@@ -274,7 +274,7 @@ namespace MobileProjectManager.ViewModels
             }
             else
             {
-                // TODO: Make toast
+                Utils.Toast.ShowToast("Error", "Check input fields", false);
             }
         }
         public void DeleteCommand()
@@ -288,11 +288,10 @@ namespace MobileProjectManager.ViewModels
             ProjectViewModel pvm = project as ProjectViewModel;
             Project = EditableProject;
             lvm.currentProject.Project = (Project)EditableProject.Clone();
-            // TODO: fix return to prefious page
             lvm.UpdateProject(project as ProjectViewModel);
-            lvm.Back();
-            lvm.Back();
-            NavigationUtil.Navigation.PushAsync(new ProjectInfoPage(this));
+            NavigationUtil.Navigation.InsertPageBefore(new ProjectInfoPage(this),NavigationUtil.getPreviousPage());
+            NavigationUtil.Navigation.RemovePage(NavigationUtil.getPreviousPage());
+            NavigationUtil.Navigation.PopAsync();
         }
 
         private void ToPMCommand(object obj)

@@ -7,6 +7,24 @@ namespace MobileProjectManager.ViewModels
 {
     class NavigationUtil
     {
-        public static INavigation Navigation { get; set; }       
-    }
+        public static INavigation Navigation { get; set; }
+
+        public static Page getPreviousPage()
+        {
+            Page prevPage;
+            int num = Application.Current.MainPage.Navigation.NavigationStack.Count -1;
+            if (num > 0)
+            {
+                int index = Application.Current.MainPage.Navigation.NavigationStack.Count - 1;
+                prevPage = Application.Current.MainPage.Navigation.NavigationStack[num - 1];
+                return prevPage;
+            }
+            else
+            {
+                return null;
+            }
+        
+
+        }
+}
 }

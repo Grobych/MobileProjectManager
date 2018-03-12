@@ -43,8 +43,11 @@ namespace MobileProjectManager.ViewModels
             {
                 switch (Notification.Type)
                 {
-                    // TODO: Name instead ID
-                    case NotificationType.InviteToTeam : return "User #" + Notification.From + " was invited you to Team";
+                    case NotificationType.InviteToTeam :
+                        {
+                            User user = Database.Database.GetUser(Notification.From);
+                            return "User #" + user.Name + " was invited you to Team";
+                        }
                     default: return "Default Notification";
                 }
             }
