@@ -9,6 +9,7 @@ namespace MobileProjectManager.Models
     {
         InviteToTeam,
         InviteAccepted,
-        InviteDenied
+        InviteDenied,
+        WorkerAddedToProject
     }
 }

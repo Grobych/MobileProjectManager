@@ -68,24 +68,13 @@ namespace MobileProjectManager.ViewModels.Database
                 Console.WriteLine(e);
             }
         }
-        public static async System.Threading.Tasks.Task<List<Project>> GetProjects(ObjectId UserID)
+        public static List<Project> GetProjects(ObjectId UserID)
         {
             var collection = database.GetCollection<Project>("projects");
-            var filter = Builders<Project>.Filter.Eq("ID", UserID) | Builders<Project>.Filter.Eq("ProjectManager", UserID);
-            List<Project> res = await collection.Find(filter).ToListAsync();
+            var builder = Builders<Project>.Filter;
+            var filter = builder.Eq("ProjectManager", UserID) | builder.Eq("WorkerIDList", UserID);
+            List<Project> res = collection.FindSync(filter).ToList();
             return res;
-        }
-        public async static void GetProjectsAllFromDB(ProjectListViewModel model)
-        {
-            //TODO: Rewrite with Project, not ViewModel
-            var collection = database.GetCollection<Project>("projects");
-            var filter = new BsonDocument();
-            var projects = await collection.Find(filter).ToListAsync();
-            foreach (var doc in projects)
-            {
-                Console.WriteLine(doc);
-                model.AddProject(new ProjectViewModel(doc,model),false);
-            }
         }
         public async static void DeleteProject(ObjectId ID)
         {

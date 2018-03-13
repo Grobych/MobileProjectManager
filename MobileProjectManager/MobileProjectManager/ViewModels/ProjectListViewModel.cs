@@ -31,7 +31,6 @@ namespace MobileProjectManager.ViewModels
         public ProjectListViewModel()
         {
             Projects = new ObservableCollection<ProjectViewModel>();
-            // TODO: get only user's projects
             InitProjectsAsync();
             CreateProjectCommand = new Command(CreateProject);
         }
@@ -43,10 +42,10 @@ namespace MobileProjectManager.ViewModels
 
         private async void InitProjectsAsync()
         {
-            List<Project> list = await Database.Database.GetProjects(Auth.CurrentUser.ID);
+            List<Project> list = Database.Database.GetProjects(Auth.CurrentUser.ID);
             foreach (var item in list)
             {
-                this.Projects.Add(new ProjectViewModel(item));
+                this.Projects.Add(new ProjectViewModel(item,this));
             }
         }
 

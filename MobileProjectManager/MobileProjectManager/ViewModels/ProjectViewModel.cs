@@ -25,31 +25,14 @@ namespace MobileProjectManager.ViewModels
         public ICommand UpdateProjectCommand { protected set; get; }
         public ICommand DeleteProjectCommand { protected set; get; }
         public ICommand ToProjectManagerPage { protected set; get; }
+        public ICommand AddWorkerCommand { protected set; get; }
 
         public Project Project { get; set ; }
         public Project EditableProject { get; set; }
         public User ProjectManager { get; set; }
         
-        public ProjectViewModel(Project project)
+        private void Init()
         {
-            Project = project;
-            EditableProject = (Project)project.Clone();
-            WorkerList = new ObservableCollection<ProfileViewModel>();
-            EditProjectCommand = new Command(EditCommand);
-            CancelEditCommand = new Command(CancelCommand);
-            CreateProjectCommand = new Command(CreateCommand);
-            UpdateProjectCommand = new Command(UpdateCommand);
-            DeleteProjectCommand = new Command(DeleteCommand);
-            ToProjectManagerPage = new Command(ToPMCommand);
-            ProjectManager = Database.Database.GetUserFromId(Project.ProjectManager);
-            Project.ProjectManager = ProjectManager.ID;
-        }
-
-
-
-        public ProjectViewModel()
-        {
-            Project = new Project();
             EditableProject = (Project)Project.Clone();
             WorkerList = new ObservableCollection<ProfileViewModel>();
             EditProjectCommand = new Command(EditCommand);
@@ -58,6 +41,21 @@ namespace MobileProjectManager.ViewModels
             UpdateProjectCommand = new Command(UpdateCommand);
             DeleteProjectCommand = new Command(DeleteCommand);
             ToProjectManagerPage = new Command(ToPMCommand);
+            AddWorkerCommand = new Command(AddWorketIntoProject);
+        }
+        public ProjectViewModel(Project project)
+        {
+            // TODO: cleanup code here
+            Project = project;
+            Init();
+            ProjectManager = Database.Database.GetUserFromId(Project.ProjectManager);
+            Project.ProjectManager = ProjectManager.ID;
+        }
+
+        public ProjectViewModel()
+        {
+            Project = new Project();
+            Init();
             ProjectManager = Auth.CurrentUser;
             Project.ProjectManager = ProjectManager.ID;
         }
@@ -65,14 +63,7 @@ namespace MobileProjectManager.ViewModels
         {
             Project = project;
             lvm = listViewModel;
-            EditableProject = (Project)project.Clone();
-            WorkerList = new ObservableCollection<ProfileViewModel>();
-            EditProjectCommand = new Command(EditCommand);
-            CancelEditCommand = new Command(CancelCommand);
-            CreateProjectCommand = new Command(CreateCommand);
-            UpdateProjectCommand = new Command(UpdateCommand);
-            DeleteProjectCommand = new Command(DeleteCommand);
-            ToProjectManagerPage = new Command(ToPMCommand);
+            Init();
             ProjectManager = Database.Database.GetUserFromId(Project.ProjectManager);
             Project.ProjectManager = ProjectManager.ID;
         }
@@ -299,6 +290,35 @@ namespace MobileProjectManager.ViewModels
             NavigationUtil.Navigation.RemovePage(NavigationUtil.getPreviousPage());
             NavigationUtil.Navigation.PopAsync();
             // TODO: mb create BackToNewPage() func?
+        }
+
+        public async void AddWorketIntoProject()
+        {
+            string UserName = await Utils.InputDialog.InputBox(NavigationUtil.Navigation);
+            User user = Database.Database.GetUser(UserName);
+            if (user == null)
+            {
+                Toast.ShowToast("Error", "User not found!", false);
+                return;
+            }
+            else
+            {
+                WorkerList.Add(new ProfileViewModel(user));
+                Project.WorkerIDList.Add(user.ID);
+                Database.Database.UpdateProject(Project);
+            }
+            BsonDocument bson = new BsonDocument();
+            bson.Add("ProjectName", Project.Name);
+            bson.Add("ManagerName", Auth.CurrentUser.Name);
+            Notification notification = new Notification
+            {
+                From = Auth.CurrentUser.ID,
+                To = user.ID,
+                Type = NotificationType.WorkerAddedToProject,
+                Line = bson
+            };
+            Database.Database.AddNotification(ref notification);
+            Toast.ShowToast("Complete!", "Worker has been added to project", false);
         }
 
         private void ToPMCommand(object obj)

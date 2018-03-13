@@ -2,6 +2,7 @@
 
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
+using System.Collections.Generic;
 
 namespace MobileProjectManager.Models
 {
@@ -28,13 +29,14 @@ namespace MobileProjectManager.Models
 
         public ObjectId ProjectManager { get; set; }
 
-        //public int TeamID { get; set; }
+        public List<ObjectId> WorkerIDList { get; set; }
 
         //public int TaskListID { get; set; }
 
         public Project()
         {
             this.Start = DateTime.Now;
+            WorkerIDList = new List<ObjectId>();
         }
 
 

@@ -31,7 +31,6 @@
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 <Button Text="Сохранить" Command="{Binding UpdateProjectCommand} " CommandParameter="{Binding}" />
                 <Button Text="Удалить" Command="{Binding DeleteProjectCommand} " CommandParameter="{Binding}" />
-                <Button Text="Отмена" Command="{Binding ListViewModel.BackCommand}"  />
             </StackLayout>
             <StackLayout Orientation="Vertical">
                 <Label Text="Работники в проекте:"></Label>
