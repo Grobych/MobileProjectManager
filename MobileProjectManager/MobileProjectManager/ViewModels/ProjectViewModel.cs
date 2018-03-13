@@ -28,7 +28,7 @@ namespace MobileProjectManager.ViewModels
 
         public Project Project { get; set ; }
         public Project EditableProject { get; set; }
- //       public ObjectId ProjectManager { get; set; }
+        public User ProjectManager { get; set; }
         
         public ProjectViewModel(Project project)
         {
@@ -41,6 +41,8 @@ namespace MobileProjectManager.ViewModels
             UpdateProjectCommand = new Command(UpdateCommand);
             DeleteProjectCommand = new Command(DeleteCommand);
             ToProjectManagerPage = new Command(ToPMCommand);
+            ProjectManager = Database.Database.GetUserFromId(Project.ProjectManager);
+            Project.ProjectManager = ProjectManager.ID;
         }
 
 
@@ -56,6 +58,8 @@ namespace MobileProjectManager.ViewModels
             UpdateProjectCommand = new Command(UpdateCommand);
             DeleteProjectCommand = new Command(DeleteCommand);
             ToProjectManagerPage = new Command(ToPMCommand);
+            ProjectManager = Auth.CurrentUser;
+            Project.ProjectManager = ProjectManager.ID;
         }
         public ProjectViewModel(Project project, ProjectListViewModel listViewModel)
         {
@@ -69,6 +73,8 @@ namespace MobileProjectManager.ViewModels
             UpdateProjectCommand = new Command(UpdateCommand);
             DeleteProjectCommand = new Command(DeleteCommand);
             ToProjectManagerPage = new Command(ToPMCommand);
+            ProjectManager = Database.Database.GetUserFromId(Project.ProjectManager);
+            Project.ProjectManager = ProjectManager.ID;
         }
 
         public ProjectListViewModel ListViewModel
@@ -189,7 +195,7 @@ namespace MobileProjectManager.ViewModels
         {
             get
             {
-                bool res = (Auth.CurrentUser.ID == Project.ProjectManager.ID);
+                bool res = (Auth.CurrentUser.ID == ProjectManager.ID);
                 return res;
             }
         }
@@ -197,13 +203,13 @@ namespace MobileProjectManager.ViewModels
         public string ProjectManagerName
         {
             get {
-                return Project.ProjectManager.Name;
+                return ProjectManager.Name;
             }
             set
             {
-                if (Project.ProjectManager.Name != value)
+                if (ProjectManager.Name != value)
                 {
-                    Project.ProjectManager.Name = value;
+                    ProjectManager.Name = value;
                     OnPropertyChanged("ProjectManagerName");
                 }
             }
@@ -268,7 +274,7 @@ namespace MobileProjectManager.ViewModels
             ProjectViewModel pvm = project as ProjectViewModel;
             if (pvm.IsValid)
             {
-                pvm.Project.ProjectManager = Auth.CurrentUser;
+                pvm.ProjectManager = Auth.CurrentUser;
                 lvm.AddProject(pvm);
                 NavigationUtil.Navigation.PopAsync();
             }
@@ -297,7 +303,7 @@ namespace MobileProjectManager.ViewModels
 
         private void ToPMCommand(object obj)
         {
-            NavigationUtil.Navigation.PushAsync(new ProfilePage(new ProfileViewModel(Project.ProjectManager)));
+            NavigationUtil.Navigation.PushAsync(new ProfilePage(new ProfileViewModel(ProjectManager)));
         }
     }
 }

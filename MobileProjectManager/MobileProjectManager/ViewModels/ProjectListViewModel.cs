@@ -74,10 +74,7 @@ namespace MobileProjectManager.ViewModels
             if (saveToDB) Database.Database.SaveProjectToDB(project.Project);
             Projects.Add(project);
         }
-        public void SaveProject()
-        {
-            // TODO: define method SaveProject
-        }
+
         public void DeleteProject(ProjectViewModel project)
         {
             if (project != null)
@@ -93,7 +90,6 @@ namespace MobileProjectManager.ViewModels
             {
                 if (pr.Project.ID == tempProject.Project.ID)
                 {
-                    // TODO: update project in DB
                     Projects[Projects.IndexOf(pr)] = tempProject;
                     Debug.WriteLine(tempProject.Project.Name);
                     Database.Database.UpdateProject(tempProject.Project);

@@ -68,6 +68,14 @@ namespace MobileProjectManager.ViewModels.Database
                 Console.WriteLine(e);
             }
         }
+        public static List<Project> GetProjects(ObjectId UserID)
+        {
+            List<Project> result = new List<Project>();
+            var collection = database.GetCollection<Project>("projects");
+            var filter = Builders<User>.Filter.Eq("ID", UserID);
+
+            return result;
+        }
         public async static void GetProjectsAllFromDB(ProjectListViewModel model)
         {
             //TODO: Rewrite with Project, not ViewModel
