@@ -8,6 +8,7 @@ using MobileProjectManager.Models;
 using MobileProjectManager.ViewModels.Database;
 using System.Collections.Generic;
 using System;
+using System.Diagnostics;
 
 namespace MobileProjectManager.ViewModels
 {
@@ -22,7 +23,6 @@ namespace MobileProjectManager.ViewModels
         public ICommand SaveProjectCommand { protected set; get; }
         public ICommand AddProjectCommand { protected set; get; }
         public ICommand UpdateProjectCommand { protected set; get; }
-        public ICommand BackCommand { protected set; get; }
         
         ProjectViewModel selectedProject;
         public ProjectViewModel currentProject { get; set; }
@@ -30,15 +30,14 @@ namespace MobileProjectManager.ViewModels
         public ProjectListViewModel()
         {
             Projects = new ObservableCollection<ProjectViewModel>();
+            // TODO: get only user's projects
             Database.Database.GetProjectsAllFromDB(this);
             CreateProjectCommand = new Command(CreateProject);
-            BackCommand = new Command(Back);
         }
         public ProjectListViewModel(ObservableCollection<ProjectViewModel> list)
         {
             Projects = list;
             CreateProjectCommand = new Command(CreateProject);
-            BackCommand = new Command(Back);
         }
 
         public ProjectViewModel SelectedProject
@@ -64,10 +63,6 @@ namespace MobileProjectManager.ViewModels
         public void CreateProject()
         {
             NavigationUtil.Navigation.PushAsync(new ProjectCreatePage(new ProjectViewModel() { ListViewModel = this }));
-        }
-        public void Back()
-        {
-            NavigationUtil.Navigation.PopAsync();
         }
         public void AddProject(ProjectViewModel project)
         {
@@ -98,7 +93,10 @@ namespace MobileProjectManager.ViewModels
             {
                 if (pr.Project.ID == tempProject.Project.ID)
                 {
+                    // TODO: update project in DB
                     Projects[Projects.IndexOf(pr)] = tempProject;
+                    Debug.WriteLine(tempProject.Project.Name);
+                    Database.Database.UpdateProject(tempProject.Project);
                     break;
                 }
             }

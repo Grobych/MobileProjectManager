@@ -261,7 +261,7 @@ namespace MobileProjectManager.ViewModels
 
         public void CancelCommand()
         {
-            lvm.Back();
+            NavigationUtil.Navigation.PopAsync();
         }
         public void CreateCommand(object project)
         {
@@ -270,7 +270,7 @@ namespace MobileProjectManager.ViewModels
             {
                 pvm.Project.ProjectManager = Auth.CurrentUser;
                 lvm.AddProject(pvm);
-                lvm.Back();
+                NavigationUtil.Navigation.PopAsync();
             }
             else
             {
@@ -280,18 +280,19 @@ namespace MobileProjectManager.ViewModels
         public void DeleteCommand()
         {
             lvm.DeleteProject(this);
-            lvm.Back();
-            lvm.Back();
+            NavigationUtil.Navigation.PopAsync();
+            NavigationUtil.Navigation.PopAsync();
         }
         public void UpdateCommand(object project)
         {
-            ProjectViewModel pvm = project as ProjectViewModel;
             Project = EditableProject;
             lvm.currentProject.Project = (Project)EditableProject.Clone();
-            lvm.UpdateProject(project as ProjectViewModel);
+            ProjectViewModel pvm = project as ProjectViewModel;
+            lvm.UpdateProject(pvm);
             NavigationUtil.Navigation.InsertPageBefore(new ProjectInfoPage(this),NavigationUtil.getPreviousPage());
             NavigationUtil.Navigation.RemovePage(NavigationUtil.getPreviousPage());
             NavigationUtil.Navigation.PopAsync();
+            // TODO: mb create BackToNewPage() func?
         }
 
         private void ToPMCommand(object obj)

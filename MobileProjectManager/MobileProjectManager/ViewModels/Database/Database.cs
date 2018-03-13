@@ -49,13 +49,20 @@ namespace MobileProjectManager.ViewModels.Database
                 return null;
             }
         }
+
+        public static void UpdateProject(Project project)
+        {
+            var collection = database.GetCollection<Project>("projects");
+            var filter = Builders<Project>.Filter.Eq(s => s.ID, project.ID);
+            var result = collection.ReplaceOneAsync(filter, project);
+        }
+
         public static void SaveProjectToDB(Project project)
         {
             try
             {
                 var collection = database.GetCollection<Project>("projects");
-                System.Threading.Tasks.Task task = collection.InsertOneAsync(project);
-                task.Wait();
+                collection.InsertOneAsync(project);
             } catch (Exception e)
             {
                 Console.WriteLine(e);
