@@ -9,6 +9,7 @@ using MobileProjectManager.ViewModels.Database;
 using System.Collections.Generic;
 using System;
 using System.Diagnostics;
+using MobileProjectManager.ViewModels.Utils;
 
 namespace MobileProjectManager.ViewModels
 {
@@ -31,13 +32,22 @@ namespace MobileProjectManager.ViewModels
         {
             Projects = new ObservableCollection<ProjectViewModel>();
             // TODO: get only user's projects
-            Database.Database.GetProjectsAllFromDB(this);
+            InitProjectsAsync();
             CreateProjectCommand = new Command(CreateProject);
         }
         public ProjectListViewModel(ObservableCollection<ProjectViewModel> list)
         {
             Projects = list;
             CreateProjectCommand = new Command(CreateProject);
+        }
+
+        private async void InitProjectsAsync()
+        {
+            List<Project> list = await Database.Database.GetProjects(Auth.CurrentUser.ID);
+            foreach (var item in list)
+            {
+                this.Projects.Add(new ProjectViewModel(item));
+            }
         }
 
         public ProjectViewModel SelectedProject

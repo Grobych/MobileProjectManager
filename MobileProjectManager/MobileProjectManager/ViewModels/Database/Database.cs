@@ -68,13 +68,12 @@ namespace MobileProjectManager.ViewModels.Database
                 Console.WriteLine(e);
             }
         }
-        public static List<Project> GetProjects(ObjectId UserID)
+        public static async System.Threading.Tasks.Task<List<Project>> GetProjects(ObjectId UserID)
         {
-            List<Project> result = new List<Project>();
             var collection = database.GetCollection<Project>("projects");
-            var filter = Builders<User>.Filter.Eq("ID", UserID);
-
-            return result;
+            var filter = Builders<Project>.Filter.Eq("ID", UserID) | Builders<Project>.Filter.Eq("ProjectManager", UserID);
+            List<Project> res = await collection.Find(filter).ToListAsync();
+            return res;
         }
         public async static void GetProjectsAllFromDB(ProjectListViewModel model)
         {
