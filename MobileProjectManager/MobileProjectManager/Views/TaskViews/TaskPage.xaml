@@ -1,26 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MobileProjectManager.Views.TaskViews.CreateTaskPage">
+             x:Class="MobileProjectManager.Views.TaskViews.TaskPage">
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout>
+            <StackLayout Orientation="Horizontal">
                 <Label Text="Task Title" FontSize="Small"/>
-                <Entry Text="{Binding Name}" FontSize="Medium"/>
+                <Label Text="{Binding Name}" FontSize="Medium"/>
             </StackLayout>
-            <StackLayout>
+            <StackLayout Orientation="Horizontal">
                 <Label Text="Description" FontSize="Small"/>
-                <Entry Text="{Binding Description}" FontSize="Medium"/>
+                <Label Text="{Binding Description}" FontSize="Medium"/>
             </StackLayout>
-            <StackLayout>
+            <StackLayout Orientation="Horizontal">
                 <Label Text="Cost" FontSize="Small"/>
-                <Entry Text="{Binding Cost}" FontSize="Medium"/>
+                <Label Text="{Binding Cost}" FontSize="Medium"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
                 <Label Text="Deadline:" FontSize="Small"/>
-                <DatePicker Date="{Binding Deadline}"/>
+                <Label Text="{Binding Deadline}"/>
             </StackLayout>
-            <Button Text="Save" Command="{Binding SaveTaskCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

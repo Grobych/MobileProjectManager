@@ -8,6 +8,7 @@ using Xamarin.Forms;
 using MobileProjectManager.ViewModels;
 using MobileProjectManager.Views;
 using System.Collections.Generic;
+using MobileProjectManager.Views.TaskViews;
 
 namespace MobileProjectManager.ViewModels
 {
@@ -32,7 +33,6 @@ namespace MobileProjectManager.ViewModels
             ToTeamListCommand = new Command(ToTeamsList);
             ToNotificationListCommand = new Command(ToNotificationList);
             TeamListView = new TeamListViewModel(this);
-
         }
 
         private void ToNotificationList(object obj)

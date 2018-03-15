@@ -56,6 +56,8 @@
             <Button Text="Add Worker" 
                     Command="{Binding AddWorkerCommand}" 
                     IsEnabled="{Binding IsUserPM}"/>
+            <Button Text="Tasks" 
+                    Command="{Binding ToTaskListCommand}" />
             <StackLayout Orientation="Vertical">
                 <Label Text="Работники в проекте:"></Label>
                 <ListView x:Name="workerList" ItemsSource="{Binding WorkerList}"

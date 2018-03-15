@@ -9,6 +9,7 @@ using System;
 
 using MongoDB.Bson;
 using MobileProjectManager.ViewModels.Utils;
+using MobileProjectManager.Views.TaskViews;
 
 namespace MobileProjectManager.ViewModels
 {
@@ -26,6 +27,7 @@ namespace MobileProjectManager.ViewModels
         public ICommand DeleteProjectCommand { protected set; get; }
         public ICommand ToProjectManagerPage { protected set; get; }
         public ICommand AddWorkerCommand { protected set; get; }
+        public ICommand ToTaskListCommand { protected set; get; }
 
         public Project Project { get; set ; }
         public Project EditableProject { get; set; }
@@ -42,6 +44,7 @@ namespace MobileProjectManager.ViewModels
             DeleteProjectCommand = new Command(DeleteCommand);
             ToProjectManagerPage = new Command(ToPMCommand);
             AddWorkerCommand = new Command(AddWorketIntoProject);
+            ToTaskListCommand = new Command(ToTaskList);
         }
         public ProjectViewModel(Project project)
         {
@@ -324,6 +327,10 @@ namespace MobileProjectManager.ViewModels
         private void ToPMCommand(object obj)
         {
             NavigationUtil.Navigation.PushAsync(new ProfilePage(new ProfileViewModel(ProjectManager)));
+        }
+        private void ToTaskList(object obj)
+        {
+            NavigationUtil.Navigation.PushAsync(new TaskListPage(new TaskListViewModel()));
         }
     }
 }

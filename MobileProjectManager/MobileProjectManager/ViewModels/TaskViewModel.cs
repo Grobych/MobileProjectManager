@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
-
+using System.Windows.Input;
 using MobileProjectManager.Models;
 using MongoDB.Bson;
+using Xamarin.Forms;
 
 namespace MobileProjectManager.ViewModels
 {
@@ -12,15 +13,27 @@ namespace MobileProjectManager.ViewModels
     {
         public Task Task { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
+        public TaskListViewModel tlv;
 
-        public TaskViewModel()
+        public ICommand SaveTaskCommand { protected set; get; }
+
+        public TaskViewModel(TaskListViewModel viewModel)
         {
+            tlv = viewModel;
             Task = new Task
             {
                 StartTime = DateTime.Now,
                 Deadline = DateTime.Now
             };
+            SaveTaskCommand = new Command(SaveTask);
         }
+
+        private void SaveTask()
+        {
+            tlv.AddTask(this);
+            NavigationUtil.Navigation.PopAsync();
+        }
+
         public TaskViewModel(Task task)
         {
             this.Task = task;
