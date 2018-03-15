@@ -1,12 +1,15 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace MobileProjectManager.Models
 {
-    class Task
+    public class Task
     {
-        public int ID { get; set; }
+        [BsonId]
+        public ObjectId ID { get; set; }
 
         public string Name { get; set; }
 

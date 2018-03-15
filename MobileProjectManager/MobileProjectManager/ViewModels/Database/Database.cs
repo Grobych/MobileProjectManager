@@ -68,6 +68,20 @@ namespace MobileProjectManager.ViewModels.Database
                 Console.WriteLine(e);
             }
         }
+        public static Project GetProject(ObjectId id)
+        {
+            var collection = database.GetCollection<Project>("project");
+            var filter = Builders<Project>.Filter.Eq("ID", id);
+            var result = collection.Find(filter);
+            if (result.Count() > 0)
+            {
+                return collection.Find(filter).First();
+            }
+            else
+            {
+                return null;
+            }
+        }
         public static List<Project> GetProjects(ObjectId UserID)
         {
             var collection = database.GetCollection<Project>("projects");

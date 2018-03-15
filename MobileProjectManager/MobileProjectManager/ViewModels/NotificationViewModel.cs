@@ -46,7 +46,13 @@ namespace MobileProjectManager.ViewModels
                     case NotificationType.InviteToTeam :
                         {
                             User user = Database.Database.GetUser(Notification.From);
-                            return "User #" + user.Name + " was invited you to Team";
+                            return "User " + user.Name + " was invited you to Team";
+                        }
+                    case NotificationType.WorkerAddedToProject:
+                        {
+                            string Name = Notification.Line.GetValue("ProjectName").AsString;
+                            User user = Database.Database.GetUser(Notification.From);
+                            return "User " +user.Name+" was added you to project "+Name;
                         }
                     default: return "Default Notification";
                 }
