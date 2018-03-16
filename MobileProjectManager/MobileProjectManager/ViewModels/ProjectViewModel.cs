@@ -10,6 +10,7 @@ using System;
 using MongoDB.Bson;
 using MobileProjectManager.ViewModels.Utils;
 using MobileProjectManager.Views.TaskViews;
+using System.Collections.Generic;
 
 namespace MobileProjectManager.ViewModels
 {
@@ -330,7 +331,8 @@ namespace MobileProjectManager.ViewModels
         }
         private void ToTaskList(object obj)
         {
-            NavigationUtil.Navigation.PushAsync(new TaskListPage(new TaskListViewModel()));
+            List<Task> list = Database.Database.GetTaskFromProject(Project);
+            NavigationUtil.Navigation.PushAsync(new TaskListPage(new TaskListViewModel(list)));
         }
     }
 }

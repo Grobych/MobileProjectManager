@@ -20,9 +20,13 @@ namespace MobileProjectManager.ViewModels
         TaskViewModel selectedTask;
         public TaskViewModel currentTask { get; set; }
 
-        public TaskListViewModel()
+        public TaskListViewModel(List<Models.Task> Tasks)
         {
             TaskList = new ObservableCollection<TaskViewModel>();
+            foreach (var item in Tasks)
+            {
+                TaskList.Add(new TaskViewModel(item));
+            }
             ToCreateTaskPageCommand = new Command(ToCreateTaskPage);
         }
 

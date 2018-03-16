@@ -15,6 +15,8 @@ namespace MobileProjectManager.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         public TaskListViewModel tlv;
 
+        public User Implementor { get; set; }
+
         public ICommand SaveTaskCommand { protected set; get; }
 
         public TaskViewModel(TaskListViewModel viewModel)
@@ -27,10 +29,11 @@ namespace MobileProjectManager.ViewModels
             };
             SaveTaskCommand = new Command(SaveTask);
         }
-
+        
         private void SaveTask()
         {
             tlv.AddTask(this);
+            Database.Database.AddTaskToProject()
             NavigationUtil.Navigation.PopAsync();
         }
 

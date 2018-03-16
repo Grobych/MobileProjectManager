@@ -278,5 +278,34 @@ namespace MobileProjectManager.ViewModels.Database
         }
 
 
+        public static void AddTaskToProject(Project project, ref Models.Task task)
+        {
+            var taskCollection = database.GetCollection<Models.Task>("tasks");
+            taskCollection.InsertOne(task);
+            project.TaskListID.Add(task.ID);
+            UpdateProject(project);
+        }
+        public static List<Models.Task> GetTaskFromProject(Project project)
+        {
+            var collection = database.GetCollection<Models.Task>("tasks");
+            var builder = Builders<Models.Task>.Filter;
+            var filter = builder.Eq("ID", project.TaskListID);
+            List<Models.Task> res = collection.FindSync(filter).ToList();
+            return res;
+        }
+        public static List<Models.Task> GetTaskFromUser(User user)
+        {
+            List<Project> ProjectsList = GetProjects(user.ID);
+            List<ObjectId> TaskID = new List<ObjectId>();
+            foreach (var pr in ProjectsList)
+            {
+                TaskID.AddRange(pr.TaskListID);
+            }
+            var collection = database.GetCollection<Models.Task>("tasks");
+            var builder = Builders<Models.Task>.Filter;
+            var filter = builder.Eq("ID", TaskID);
+            List<Models.Task> res = collection.FindSync(filter).ToList();
+            return res;
+        }
     }
 }

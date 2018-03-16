@@ -24,5 +24,9 @@ namespace MobileProjectManager.Models
         public DateTime FinishedTime { get; set; }
 
         internal TaskStatus Status { get; set; }
+
+        public ObjectId Implementer { get; set; }
+
+        public ObjectId ProjectID { get; set; }
     }
 }

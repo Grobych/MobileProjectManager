@@ -31,7 +31,7 @@ namespace MobileProjectManager.Models
 
         public List<ObjectId> WorkerIDList { get; set; }
 
-        //public int TaskListID { get; set; }
+        public List<ObjectId> TaskListID { get; set; }
 
         public Project()
         {

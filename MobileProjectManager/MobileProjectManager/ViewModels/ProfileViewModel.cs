@@ -21,7 +21,7 @@ namespace MobileProjectManager.ViewModels
         public ICommand ToProjectListCommand { protected set; get; }
         public ICommand ToTeamListCommand { protected set; get; }
         public ICommand ToNotificationListCommand { protected set; get; }
-
+        public ICommand ToTaskListCommand { protected set; get; }
 
         public User User { get; set; }
 
@@ -32,7 +32,14 @@ namespace MobileProjectManager.ViewModels
             ToProjectListCommand = new Command(ToProjectList);
             ToTeamListCommand = new Command(ToTeamsList);
             ToNotificationListCommand = new Command(ToNotificationList);
+            ToTaskListCommand = new Command(ToTaskList);
             TeamListView = new TeamListViewModel(this);
+        }
+
+        private void ToTaskList(object obj)
+        {
+            List<Models.Task> list = Database.Database.GetTaskFromUser(User);
+            NavigationUtil.Navigation.PushAsync(new TaskListPage(new TaskListViewModel(list)));
         }
 
         private void ToNotificationList(object obj)
