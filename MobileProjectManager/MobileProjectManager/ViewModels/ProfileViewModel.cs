@@ -9,6 +9,7 @@ using MobileProjectManager.ViewModels;
 using MobileProjectManager.Views;
 using System.Collections.Generic;
 using MobileProjectManager.Views.TaskViews;
+using MobileProjectManager.ViewModels.Utils;
 
 namespace MobileProjectManager.ViewModels
 {
@@ -110,6 +111,11 @@ namespace MobileProjectManager.ViewModels
         //        }
         //    }
         //}
+
+        public bool IsUserPage
+        {
+            get { return User.ID == Auth.CurrentUser.ID; }
+        }
 
         protected void OnPropertyChanged(string propName)
         {

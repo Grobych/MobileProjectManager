@@ -17,6 +17,8 @@ namespace MobileProjectManager.ViewModels
         public ICommand ToCreateTaskPageCommand { protected set; get; }
         public ICommand DeleteTask { protected set; get; }
 
+        public ProjectViewModel pvm { get; set; }
+
         TaskViewModel selectedTask;
         public TaskViewModel currentTask { get; set; }
 
@@ -24,7 +26,7 @@ namespace MobileProjectManager.ViewModels
         {
             TaskList = new ObservableCollection<TaskViewModel>();
             foreach (var item in Tasks)
-            {
+            { 
                 TaskList.Add(new TaskViewModel(item));
             }
             ToCreateTaskPageCommand = new Command(ToCreateTaskPage);

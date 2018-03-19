@@ -14,6 +14,7 @@
                             <ViewCell.View>
                                 <StackLayout>
                                     <Label Text="{Binding Name}" FontSize="Medium" />
+                                    <Label Text="{Binding Project}" FontSize="Medium"/>
                                     <Label Text="{Binding Cost}" FontSize="Small" />
                                     <Label Text="{Binding Description}" FontSize="Small" />
                                 </StackLayout>

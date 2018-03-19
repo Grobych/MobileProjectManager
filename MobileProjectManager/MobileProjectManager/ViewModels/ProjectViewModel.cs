@@ -332,7 +332,7 @@ namespace MobileProjectManager.ViewModels
         private void ToTaskList(object obj)
         {
             List<Task> list = Database.Database.GetTaskFromProject(Project);
-            NavigationUtil.Navigation.PushAsync(new TaskListPage(new TaskListViewModel(list)));
+            NavigationUtil.Navigation.PushAsync(new TaskListPage(new TaskListViewModel(list) { pvm = this }));
         }
     }
 }

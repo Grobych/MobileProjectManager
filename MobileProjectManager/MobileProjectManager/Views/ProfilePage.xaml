@@ -12,7 +12,7 @@
                     <Label Text="{Binding ID}" FontSize="Small" HorizontalOptions="Center" VerticalOptions="Center"/>
                 </StackLayout>
                 <Button Text="Projects" Command="{Binding ToProjectListCommand}"/>
-                <Button Text="My tasks" Command="{Binding ToTaskListCommand}"/>
+                <Button Text="My tasks" Command="{Binding ToTaskListCommand}" IsVisible="{Binding IsUserPage}" />
                 <Button Text="Teams" Command="{Binding ToTeamListCommand}"/>
                 <Button Text="Notifications" Command="{Binding ToNotificationListCommand}"/>
             </StackLayout>

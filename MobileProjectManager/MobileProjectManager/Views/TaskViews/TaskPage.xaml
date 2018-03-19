@@ -20,6 +20,16 @@
                 <Label Text="Deadline:" FontSize="Small"/>
                 <Label Text="{Binding Deadline}"/>
             </StackLayout>
+            <StackLayout Orientation="Vertical" IsVisible="{Binding IsHadImplementor}">
+                <Label Text="Implementor:"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+                    <Image HeightRequest="35" BackgroundColor="Aquamarine"/>
+                    <Label Text="{Binding ImplementorName}"/>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout IsVisible="{Binding IsHadNotImplementor}">
+                <Button Text="Get It" Command="{Binding GetTaskCommand}"/>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

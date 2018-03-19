@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Input;
 using MobileProjectManager.Models;
+using MobileProjectManager.ViewModels.Utils;
 using MongoDB.Bson;
 using Xamarin.Forms;
 
@@ -14,32 +16,55 @@ namespace MobileProjectManager.ViewModels
         public Task Task { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
         public TaskListViewModel tlv;
+        public Project TaskProject { get; set; }
 
         public User Implementor { get; set; }
 
         public ICommand SaveTaskCommand { protected set; get; }
+        public ICommand GetTaskCommand { protected set; get; }
 
+        private void CommandInit()
+        {
+            SaveTaskCommand = new Command(SaveTask);
+            GetTaskCommand = new Command(GetTaskByMyself);
+        }
         public TaskViewModel(TaskListViewModel viewModel)
         {
             tlv = viewModel;
+            TaskProject = tlv.pvm.Project;
             Task = new Task
             {
                 StartTime = DateTime.Now,
                 Deadline = DateTime.Now
             };
-            SaveTaskCommand = new Command(SaveTask);
+            Implementor = Database.Database.GetUser(Task.Implementer);
+            CommandInit();
         }
-        
-        private void SaveTask()
-        {
-            tlv.AddTask(this);
-            Database.Database.AddTaskToProject()
-            NavigationUtil.Navigation.PopAsync();
-        }
-
-        public TaskViewModel(Task task)
+        public TaskViewModel(Models.Task task)
         {
             this.Task = task;
+            TaskProject = Database.Database.GetProject(Task.ProjectID);
+            Implementor = Database.Database.GetUser(Task.Implementer);
+            CommandInit();
+        }
+
+
+        private void GetTaskByMyself()
+        {
+            Debug.WriteLine("GetTask");
+            Task.Implementer = Auth.CurrentUser.ID;
+            this.Implementor = Auth.CurrentUser;
+            Database.Database.UpdateTask(Task);
+        }
+
+        private void SaveTask()
+        {
+            Task temp = this.Task;
+            TaskProject = tlv.pvm.Project;
+            temp.ProjectID = TaskProject.ID;
+            Database.Database.AddTaskToProject(TaskProject,ref temp);
+            tlv.AddTask(this);
+            NavigationUtil.Navigation.PopAsync();
         }
 
         public ObjectId ID
@@ -127,6 +152,36 @@ namespace MobileProjectManager.ViewModels
                 {
                     Task.Cost = value;
                     OnPropertyChanged("Cost");
+                }
+            }
+        }
+        public string Project
+        {
+            get
+            {
+                return TaskProject.Name;
+            }
+        }
+        public bool IsHadImplementor
+        {
+            get
+            {
+                return ((Task.Implementer != null) && (Task.Implementer != ObjectId.Empty));
+            }
+        }
+        public bool IsHadNotImplementor
+        {
+            get { return !IsHadImplementor; }
+        }
+        public string ImplementorName
+        {
+            get { return Implementor.Name; }
+            set
+            {
+                if (Implementor.Name != value)
+                {
+                    Implementor.Name = value;
+                    OnPropertyChanged("ImplementorName");
                 }
             }
         }

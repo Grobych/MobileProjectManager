@@ -7,6 +7,7 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 
 using MobileProjectManager.Models;
+using System.Diagnostics;
 
 namespace MobileProjectManager.ViewModels.Database
 {
@@ -70,8 +71,8 @@ namespace MobileProjectManager.ViewModels.Database
         }
         public static Project GetProject(ObjectId id)
         {
-            var collection = database.GetCollection<Project>("project");
-            var filter = Builders<Project>.Filter.Eq("ID", id);
+            var collection = database.GetCollection<Project>("projects");
+            var filter = Builders<Project>.Filter.Eq("_id", id);
             var result = collection.Find(filter);
             if (result.Count() > 0)
             {
@@ -289,8 +290,9 @@ namespace MobileProjectManager.ViewModels.Database
         {
             var collection = database.GetCollection<Models.Task>("tasks");
             var builder = Builders<Models.Task>.Filter;
-            var filter = builder.Eq("ID", project.TaskListID);
-            List<Models.Task> res = collection.FindSync(filter).ToList();
+            var filter = builder.Eq("ProjectID", project.ID);
+            var ret = collection.FindSync(filter);
+            List <Models.Task> res = ret.ToList();
             return res;
         }
         public static List<Models.Task> GetTaskFromUser(User user)
@@ -306,6 +308,12 @@ namespace MobileProjectManager.ViewModels.Database
             var filter = builder.Eq("ID", TaskID);
             List<Models.Task> res = collection.FindSync(filter).ToList();
             return res;
+        }
+        public static void UpdateTask(Models.Task task)
+        {
+            var collection = database.GetCollection<Models.Task>("tasks");
+            var filter = Builders<Models.Task>.Filter.Eq(s => s.ID, task.ID);
+            var result = collection.ReplaceOneAsync(filter, task);
         }
     }
 }

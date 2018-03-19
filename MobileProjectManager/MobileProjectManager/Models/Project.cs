@@ -37,6 +37,7 @@ namespace MobileProjectManager.Models
         {
             this.Start = DateTime.Now;
             WorkerIDList = new List<ObjectId>();
+            TaskListID = new List<ObjectId>();
         }
 
 
