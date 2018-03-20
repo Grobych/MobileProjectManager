@@ -9,6 +9,10 @@
                 <Label Text="{Binding Name}" FontSize="Medium"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
+                <Label Text="Status" FontSize="Medium"/>
+                <Label Text="{Binding TaskStatus}" FontSize="Medium" HorizontalOptions="End" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
                 <Label Text="Description" FontSize="Small"/>
                 <Label Text="{Binding Description}" FontSize="Medium"/>
             </StackLayout>
@@ -29,6 +33,21 @@
             </StackLayout>
             <StackLayout IsVisible="{Binding IsHadNotImplementor}">
                 <Button Text="Get It" Command="{Binding GetTaskCommand}"/>
+            </StackLayout>
+            <StackLayout IsVisible="{Binding IsUserImplementor}">
+                <Label Text="Raport Complete"/>
+                <Entry Text="{Binding Comment}"/>
+                <Button Text="Raport" Command="{Binding SetReportCommand}"/>
+            </StackLayout>
+            <StackLayout IsVisible="{Binding IsUserPMandTaskCompleted}">
+                <Label Text="Task Completed!"/>
+                <Label Text="Report:"/>
+                <Label Text="{Binding Comment}"/>
+                <Button Text="Accept" Command="{Binding AcceptTaskCommand}"/>
+                <Button Text="Decline" Command="{Binding DeclineTaskCommand}"/>
+            </StackLayout>
+            <StackLayout IsVisible="{Binding IsUserProjectManager}">
+                <Button Text="Delete Task" Command="{Binding DeleteTaskCommand}"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

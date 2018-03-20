@@ -15,7 +15,6 @@ namespace MobileProjectManager.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand ToCreateTaskPageCommand { protected set; get; }
-        public ICommand DeleteTask { protected set; get; }
 
         public ProjectViewModel pvm { get; set; }
 
@@ -40,6 +39,10 @@ namespace MobileProjectManager.ViewModels
         {
             TaskList.Add(task);
         }
+        public void DeleteTask(TaskViewModel task)
+        {
+            TaskList.Remove(task);
+        }
 
         public TaskViewModel SelectedTask
         {
@@ -51,6 +54,7 @@ namespace MobileProjectManager.ViewModels
                     selectedTask = null;
                     OnPropertyChanged("SelectedTask");
                     currentTask = value;
+                    currentTask.tlv = this;
                     NavigationUtil.Navigation.PushAsync(new TaskPage(currentTask));
                 }
             }

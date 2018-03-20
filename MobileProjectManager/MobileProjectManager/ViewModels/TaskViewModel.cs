@@ -17,16 +17,25 @@ namespace MobileProjectManager.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         public TaskListViewModel tlv;
         public Project TaskProject { get; set; }
+        public string Comment { get; set; }
 
         public User Implementor { get; set; }
 
         public ICommand SaveTaskCommand { protected set; get; }
         public ICommand GetTaskCommand { protected set; get; }
+        public ICommand SetReportCommand { protected set; get; }
+        public ICommand AcceptTaskCommand { protected set; get; }
+        public ICommand DeclineTaskCommand { protected set; get; }
+        public ICommand DeleteTaskCommand { protected set; get; }
 
         private void CommandInit()
         {
             SaveTaskCommand = new Command(SaveTask);
             GetTaskCommand = new Command(GetTaskByMyself);
+            SetReportCommand = new Command(SetReport);
+            AcceptTaskCommand = new Command(CheckTaskTrue);
+            DeclineTaskCommand = new Command(CheckTaskFalse);
+            DeleteTaskCommand = new Command(DeleteTask);
         }
         public TaskViewModel(TaskListViewModel viewModel)
         {
@@ -54,6 +63,7 @@ namespace MobileProjectManager.ViewModels
             Debug.WriteLine("GetTask");
             Task.Implementer = Auth.CurrentUser.ID;
             this.Implementor = Auth.CurrentUser;
+            Task.Status = TaskStatus.InProgress;
             Database.Database.UpdateTask(Task);
         }
 
@@ -65,6 +75,64 @@ namespace MobileProjectManager.ViewModels
             Database.Database.AddTaskToProject(TaskProject,ref temp);
             tlv.AddTask(this);
             NavigationUtil.Navigation.PopAsync();
+        }
+        private void DeleteTask()
+        {
+            tlv.DeleteTask(this);
+            //Database.Database.DeleteTask(this.Task);
+        }
+
+        private void SetReport()
+        {
+            Notification notification = new Notification
+            {
+                From = Auth.CurrentUser.ID,
+                To = tlv.pvm.ProjectManager.ID,
+                Type = NotificationType.TaskCompleteReport,
+                Line = new BsonDocument().Set("Comment", Comment)
+            };
+            Database.Database.AddNotification(ref notification);
+            Task.Status = TaskStatus.Completed;
+            Database.Database.UpdateTask(Task);
+            Toast.ShowToast("Complete!", "Report has been sended", false);
+        }
+
+
+        // TODO: Rewrite
+        private void CheckTaskTrue()
+        {
+            CheckTask(true);
+        }
+        private void CheckTaskFalse()
+        {
+            CheckTask(false);
+        }
+
+        private void CheckTask(bool accept)
+        {
+            if (accept)
+            {
+                Task.Status = TaskStatus.Confirmed;
+                Notification notification = new Notification
+                {
+                    From = Auth.CurrentUser.ID,
+                    To = Task.Implementer,
+                    Type = NotificationType.TaskReportApproved
+                };
+                Database.Database.AddNotification(ref notification);
+                Toast.ShowToast("Complete!", "Task hes been approved", false);
+            } else
+            {
+                Task.Status = TaskStatus.InProgress;
+                Notification notification = new Notification
+                {
+                    From = Auth.CurrentUser.ID,
+                    To = Task.Implementer,
+                    Type = NotificationType.TaskReportDeclined
+                };
+                Database.Database.AddNotification(ref notification);
+                Toast.ShowToast("Complete!", "Task still in progress",false);
+            }
         }
 
         public ObjectId ID
@@ -175,7 +243,12 @@ namespace MobileProjectManager.ViewModels
         }
         public string ImplementorName
         {
-            get { return Implementor.Name; }
+            get
+            {
+                if (Implementor != null)
+                    return Implementor.Name;
+                else return "";
+            }
             set
             {
                 if (Implementor.Name != value)
@@ -183,6 +256,21 @@ namespace MobileProjectManager.ViewModels
                     Implementor.Name = value;
                     OnPropertyChanged("ImplementorName");
                 }
+            }
+        }
+        public bool IsUserImplementor
+        {
+            get { return Auth.CurrentUser == Implementor; }
+        }
+        public bool IsUserProjectManager
+        {
+            get { return (Auth.CurrentUser.ID == this.tlv.pvm.ProjectManager.ID); }
+        }
+        public bool IsUserPMandTaskCompleted
+        {
+            get
+            {
+                return (IsUserProjectManager && (Task.Status == TaskStatus.Completed));
             }
         }
 

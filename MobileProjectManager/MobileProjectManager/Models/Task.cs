@@ -23,6 +23,7 @@ namespace MobileProjectManager.Models
 
         public DateTime FinishedTime { get; set; }
 
+        [BsonElement]
         internal TaskStatus Status { get; set; }
 
         public ObjectId Implementer { get; set; }

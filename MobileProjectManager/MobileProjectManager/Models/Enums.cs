@@ -10,6 +10,9 @@ namespace MobileProjectManager.Models
         InviteToTeam,
         InviteAccepted,
         InviteDenied,
-        WorkerAddedToProject
+        WorkerAddedToProject,
+        TaskReportApproved,
+        TaskReportDeclined,
+        TaskCompleteReport
     }
 }
