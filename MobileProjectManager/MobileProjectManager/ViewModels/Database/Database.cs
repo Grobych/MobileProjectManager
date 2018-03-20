@@ -91,6 +91,14 @@ namespace MobileProjectManager.ViewModels.Database
             List<Project> res = collection.FindSync(filter).ToList();
             return res;
         }
+
+        public async static void DeleteTask(Models.Task task)
+        {
+            var collection = database.GetCollection<Models.Task>("tasks");
+            var filter = Builders<Models.Task>.Filter.Eq("ID", task.ID);
+            var tasks = await collection.DeleteOneAsync(filter);
+        }
+
         public async static void DeleteProject(ObjectId ID)
         {
             var collection = database.GetCollection<Project>("projects");

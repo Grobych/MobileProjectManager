@@ -79,7 +79,8 @@ namespace MobileProjectManager.ViewModels
         private void DeleteTask()
         {
             tlv.DeleteTask(this);
-            //Database.Database.DeleteTask(this.Task);
+            Database.Database.DeleteTask(this.Task);
+            NavigationUtil.Navigation.PopAsync();
         }
 
         private void SetReport()
