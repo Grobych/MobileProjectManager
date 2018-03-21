@@ -54,6 +54,37 @@ namespace MobileProjectManager.ViewModels
                             User user = Database.Database.GetUser(Notification.From);
                             return "User " +user.Name+" was added you to project "+Name;
                         }
+                    case NotificationType.InviteAccepted:
+                        {
+                            string UserName = Notification.Line.GetValue("UserName").AsString;
+                            string TeamName = Notification.Line.GetValue("TeamName").AsString;
+                            return "User " + UserName + " was accepted you invite to team " + TeamName;
+                        }
+                    case NotificationType.InviteDenied:
+                        {
+                            string UserName = Notification.Line.GetValue("UserName").AsString;
+                            string TeamName = Notification.Line.GetValue("TeamName").AsString;
+                            return "User " + UserName + " was denied you invite to team " + TeamName;
+                        }
+                    case NotificationType.TaskCompleteReport:
+                        {
+                            string UserName = Notification.Line.GetValue("UserName").AsString;
+                            string ProjectName = Notification.Line.GetValue("ProjectName").AsString;
+                            string TaskName = Notification.Line.GetValue("Task").AsString;
+                            string Comment = Notification.Line.GetValue("Comment").AsString;
+                            return "User " + UserName + " completed task " + TaskName + " in " + ProjectName + "\nCpmment: " + Comment;
+                        }
+                    case NotificationType.TaskReportApproved:
+                        {
+                            string TaskName = Notification.Line.GetValue("TaskName").AsString;
+                            return "Task " + TaskName + " has been approved by project manager";
+                        }
+                    case NotificationType.TaskReportDeclined:
+                        {
+                            string TaskName = Notification.Line.GetValue("TaskName").AsString;
+                            string Comment = Notification.Line.GetValue("Comment").AsString;
+                            return "Task " + TaskName + " has not been approved by project manager;\nComment: "+Comment;
+                        }
                     default: return "Default Notification";
                 }
             }
@@ -110,7 +141,9 @@ namespace MobileProjectManager.ViewModels
                 case NotificationType.InviteToTeam:
                     {
                         BsonDocument bson = NVM.Notification.Line.ToBsonDocument();
-                        bool res = await Application.Current.MainPage.DisplayAlert("Notification", "User " + bson.GetElement("UserName") + " invite you to team " + bson.GetElement("TeamName"), "Ok","Cancel");
+                        string TeamName = bson.GetElement("TeamName").ToString();
+                        string TeamManager = bson.GetElement("UserName").ToString();
+                        bool res = await Application.Current.MainPage.DisplayAlert("Notification", "User " + TeamManager + " invite you to team " + TeamName, "Ok","Cancel");
                         if (res)
                         {
                             Team team = Database.Database.GetTeam(bson.GetElement("TeamId").Value.AsObjectId);
@@ -121,7 +154,7 @@ namespace MobileProjectManager.ViewModels
                                 To = NVM.Notification.From,
                                 From = NVM.Notification.To,
                                 Type = NotificationType.InviteAccepted,
-                                Line = new BsonDocument().Add("Line","OK")
+                                Line = new BsonDocument().Add("UserName", Auth.CurrentUser.Name).Add("TeamName", TeamName)
                             };
                             Database.Database.AddNotification(ref answer);
                         }

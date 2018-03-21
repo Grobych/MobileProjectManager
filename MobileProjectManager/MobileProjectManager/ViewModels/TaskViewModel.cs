@@ -90,7 +90,11 @@ namespace MobileProjectManager.ViewModels
                 From = Auth.CurrentUser.ID,
                 To = tlv.pvm.ProjectManager.ID,
                 Type = NotificationType.TaskCompleteReport,
-                Line = new BsonDocument().Set("Comment", Comment)
+                Line = new BsonDocument()
+                .Add("Comment", Comment)
+                .Add("ProjectName",tlv.pvm.Project.Name)
+                .Add("UserName",Auth.CurrentUser.Name)
+                .Add("Task",Task.Name)
             };
             Database.Database.AddNotification(ref notification);
             Task.Status = TaskStatus.Completed;
@@ -118,18 +122,24 @@ namespace MobileProjectManager.ViewModels
                 {
                     From = Auth.CurrentUser.ID,
                     To = Task.Implementer,
-                    Type = NotificationType.TaskReportApproved
+                    Type = NotificationType.TaskReportApproved,
+                    Line = new BsonDocument()
+                    .Add("TaskName",Task.Name)
                 };
                 Database.Database.AddNotification(ref notification);
                 Toast.ShowToast("Complete!", "Task hes been approved", false);
             } else
             {
                 Task.Status = TaskStatus.InProgress;
+                string Comment = InputDialog.InputBox(NavigationUtil.Navigation).Result;
                 Notification notification = new Notification
                 {
                     From = Auth.CurrentUser.ID,
                     To = Task.Implementer,
-                    Type = NotificationType.TaskReportDeclined
+                    Type = NotificationType.TaskReportDeclined,
+                    Line = new BsonDocument()
+                    .Add("TaskName",Task.Name)
+                    .Add("Comment",Comment)
                 };
                 Database.Database.AddNotification(ref notification);
                 Toast.ShowToast("Complete!", "Task still in progress",false);

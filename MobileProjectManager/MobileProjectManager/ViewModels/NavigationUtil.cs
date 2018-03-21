@@ -23,8 +23,16 @@ namespace MobileProjectManager.ViewModels
             {
                 return null;
             }
-        
-
+        }
+        public static void Back()
+        {
+            if (Application.Current.MainPage.Navigation.NavigationStack.Count > 1) Navigation.PopAsync();
+        }
+        public static void BackToNewPage(Page page)
+        {
+            Navigation.InsertPageBefore(page, getPreviousPage());
+            Navigation.RemovePage(getPreviousPage());
+            Navigation.PopAsync();
         }
 }
 }

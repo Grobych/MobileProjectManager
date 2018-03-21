@@ -49,7 +49,6 @@ namespace MobileProjectManager.ViewModels
         }
         public ProjectViewModel(Project project)
         {
-            // TODO: cleanup code here
             Project = project;
             Init();
             ProjectManager = Database.Database.GetUserFromId(Project.ProjectManager);
@@ -290,10 +289,7 @@ namespace MobileProjectManager.ViewModels
             lvm.currentProject.Project = (Project)EditableProject.Clone();
             ProjectViewModel pvm = project as ProjectViewModel;
             lvm.UpdateProject(pvm);
-            NavigationUtil.Navigation.InsertPageBefore(new ProjectInfoPage(this),NavigationUtil.getPreviousPage());
-            NavigationUtil.Navigation.RemovePage(NavigationUtil.getPreviousPage());
-            NavigationUtil.Navigation.PopAsync();
-            // TODO: mb create BackToNewPage() func?
+            NavigationUtil.BackToNewPage(new ProjectInfoPage(this));
         }
 
         public async void AddWorketIntoProject()
