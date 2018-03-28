@@ -9,7 +9,7 @@
             <Label Text="Phone number" />
             <Entry Text="{Binding Number}" Keyboard="Telephone" />
             <Label Text="Email" />
-            <Entry Text="{Binding Email}" />
+            <Entry Text="{Binding Email}" Keyboard="Email"/>
             <Label Text="Password" />
             <Entry Text="{Binding Password}" IsPassword="true" />
             <Button Text="SingUp" Command="{Binding SignUPCommand}" CommandParameter="{Binding}" />

@@ -31,7 +31,6 @@ namespace MobileProjectManager.ViewModels
         public ProfileViewModel(User user)
         {
             this.User = user;
-            ProjectListView = new ProjectListViewModel();
             ToProjectListCommand = new Command(ToProjectList);
             ToTeamListCommand = new Command(ToTeamsList);
             ToNotificationListCommand = new Command(ToNotificationList);
@@ -59,6 +58,7 @@ namespace MobileProjectManager.ViewModels
 
         private void ToProjectList(object obj)
         {
+            ProjectListView = new ProjectListViewModel();
             NavigationUtil.Navigation.PushAsync(new ProjectListPage(ProjectListView));
         }
         private void ToTeamsList(object obj)

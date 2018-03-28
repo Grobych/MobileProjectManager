@@ -38,11 +38,10 @@ namespace MobileProjectManager.ViewModels
         {
             EditableProject = (Project)Project.Clone();
             WorkerList = new ObservableCollection<ProfileViewModel>();
-            //foreach (var item in Project.WorkerIDList)
-            //{
-            //    WorkerList.Add(new ProfileViewModel(Database.Database.GetUserFromId(item)));
-            //}
-            // TODO: fix timeout error
+            foreach (var item in Project.WorkerIDList)
+            {
+                WorkerList.Add(new ProfileViewModel(Database.Database.GetUserFromId(item)));
+            }
             EditProjectCommand = new Command(EditCommand);
             CancelEditCommand = new Command(CancelCommand);
             CreateProjectCommand = new Command(CreateCommand);
