@@ -26,6 +26,7 @@
             </StackLayout>
             <StackLayout Orientation="Vertical" IsVisible="{Binding IsHadImplementor}">
                 <Label Text="Implementor:"/>
+                <!-- //TODO: add link to implementor's page -->
                 <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
                     <Image HeightRequest="35" BackgroundColor="Aquamarine"/>
                     <Label Text="{Binding ImplementorName}"/>

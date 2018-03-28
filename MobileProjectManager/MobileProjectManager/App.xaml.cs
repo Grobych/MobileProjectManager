@@ -17,6 +17,8 @@ namespace MobileProjectManager
 	{
 		public App ()
 		{
+            // TODO: add page's titles
+            // TODO: add avatars
             Database.Connect();
             MainPage = new NavigationPage(new LoginPage());
         }

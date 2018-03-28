@@ -57,7 +57,7 @@ namespace MobileProjectManager.ViewModels
             CommandInit();
         }
 
-
+        // TODO: setup upgating task page
         private void GetTaskByMyself()
         {
             Debug.WriteLine("GetTask");
@@ -65,6 +65,16 @@ namespace MobileProjectManager.ViewModels
             this.Implementor = Auth.CurrentUser;
             Task.Status = TaskStatus.InProgress;
             Database.Database.UpdateTask(Task);
+            Notification notification = new Notification()
+            {
+                From = Auth.CurrentUser.ID,
+                To = this.tlv.pvm.ProjectManager.ID,
+                Type = NotificationType.GetTaskReport,
+                Line = new BsonDocument()
+                .Add("TaskName", Task.Name)
+                .Add("UserName", Auth.CurrentUser.Name)
+            };
+            Database.Database.AddNotification(ref notification);
         }
 
         private void SaveTask()
@@ -271,7 +281,11 @@ namespace MobileProjectManager.ViewModels
         }
         public bool IsUserImplementor
         {
-            get { return Auth.CurrentUser == Implementor; }
+            // TODO: Check 1
+            get {
+                if (Implementor == null) return false;
+                return Auth.CurrentUser.ID == Implementor.ID;
+            }
         }
         public bool IsUserProjectManager
         {

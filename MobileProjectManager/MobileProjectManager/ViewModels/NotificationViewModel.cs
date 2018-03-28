@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using MobileProjectManager.Models;
 using MobileProjectManager.ViewModels.Utils;
+using MobileProjectManager.Views.TaskViews;
 using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
@@ -65,6 +66,12 @@ namespace MobileProjectManager.ViewModels
                             string UserName = Notification.Line.GetValue("UserName").AsString;
                             string TeamName = Notification.Line.GetValue("TeamName").AsString;
                             return "User " + UserName + " was denied you invite to team " + TeamName;
+                        }
+                    case NotificationType.GetTaskReport:
+                        {
+                            string UserName = Notification.Line.GetValue("UserName").AsString;
+                            string TaskName = Notification.Line.GetValue("TaskName").AsString;
+                            return "User " + UserName + " get the task " + TaskName;
                         }
                     case NotificationType.TaskCompleteReport:
                         {
@@ -140,44 +147,63 @@ namespace MobileProjectManager.ViewModels
             {
                 case NotificationType.InviteToTeam:
                     {
-                        BsonDocument bson = NVM.Notification.Line.ToBsonDocument();
-                        string TeamName = bson.GetElement("TeamName").ToString();
-                        string TeamManager = bson.GetElement("UserName").ToString();
-                        bool res = await Application.Current.MainPage.DisplayAlert("Notification", "User " + TeamManager + " invite you to team " + TeamName, "Ok","Cancel");
-                        if (res)
-                        {
-                            Team team = Database.Database.GetTeam(bson.GetElement("TeamId").Value.AsObjectId);
-                            team.WorkersID.Add(Auth.CurrentUser.ID);
-                            Database.Database.UpdateTeam(team);
-                            Notification answer = new Notification
-                            {
-                                To = NVM.Notification.From,
-                                From = NVM.Notification.To,
-                                Type = NotificationType.InviteAccepted,
-                                Line = new BsonDocument().Add("UserName", Auth.CurrentUser.Name).Add("TeamName", TeamName)
-                            };
-                            Database.Database.AddNotification(ref answer);
-                        }
-                        else
-                        {
-                            Notification answer = new Notification
-                            {
-                                To = NVM.Notification.From,
-                                From = NVM.Notification.To,
-                                Type = NotificationType.InviteDenied,
-                                Line = new BsonDocument().Add("Line", "NOT OK")
-                            };
-                            Database.Database.AddNotification(ref answer);
-                        }
+                        InviteToTeam(NVM);
+                        break;
+                    }
+                case NotificationType.TaskCompleteReport:
+                    {
+                        TaskCompleteReport(NVM);
                         break;
                     }
                 default:
                     {
                         break;
-                        //
                     }
             }
         }
-    }
 
+        private async void InviteToTeam(NotificationViewModel NVM)
+        {
+            BsonDocument bson = NVM.Notification.Line.ToBsonDocument();
+            string TeamName = bson.GetElement("TeamName").ToString();
+            string TeamManager = bson.GetElement("UserName").ToString();
+            bool res = await Application.Current.MainPage.DisplayAlert("Notification", "User " + TeamManager + " invite you to team " + TeamName, "Ok", "Cancel");
+            if (res)
+            {
+                Team team = Database.Database.GetTeam(bson.GetElement("TeamId").Value.AsObjectId);
+                team.WorkersID.Add(Auth.CurrentUser.ID);
+                Database.Database.UpdateTeam(team);
+                Notification answer = new Notification
+                {
+                    To = NVM.Notification.From,
+                    From = NVM.Notification.To,
+                    Type = NotificationType.InviteAccepted,
+                    Line = new BsonDocument().Add("UserName", Auth.CurrentUser.Name).Add("TeamName", TeamName)
+                };
+                Database.Database.AddNotification(ref answer);
+            }
+            else
+            {
+                Notification answer = new Notification
+                {
+                    To = NVM.Notification.From,
+                    From = NVM.Notification.To,
+                    Type = NotificationType.InviteDenied,
+                    Line = new BsonDocument().Add("Line", "NOT OK")
+                };
+                Database.Database.AddNotification(ref answer);
+            }
+        }
+        private async void TaskCompleteReport(NotificationViewModel NVM)
+        {
+            bool res = await Application.Current.MainPage.DisplayAlert("Notification", NVM.Definition , "To Task Page", "Close");
+            if (res)
+            {
+                List<Models.Task> tasks = Database.Database.GetTaskFromUser(Auth.CurrentUser);
+                Task finded = tasks.Find(item => item.Name == NVM.Notification.Line.GetValue("Task"));
+                // TODO: can be tlv == null 
+                await NavigationUtil.Navigation.PushAsync(new TaskPage(new TaskViewModel(finded)));
+            }
+        }
+    }
 }

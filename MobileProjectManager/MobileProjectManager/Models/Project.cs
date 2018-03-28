@@ -35,6 +35,7 @@ namespace MobileProjectManager.Models
 
         public Project()
         {
+            // check start date is correct
             this.Start = DateTime.Now;
             WorkerIDList = new List<ObjectId>();
             TaskListID = new List<ObjectId>();

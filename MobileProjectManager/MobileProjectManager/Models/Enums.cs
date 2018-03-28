@@ -13,6 +13,7 @@ namespace MobileProjectManager.Models
         WorkerAddedToProject,
         TaskReportApproved,
         TaskReportDeclined,
-        TaskCompleteReport
+        TaskCompleteReport,
+        GetTaskReport
     }
 }

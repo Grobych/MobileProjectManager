@@ -8,6 +8,7 @@ using MongoDB.Bson;
 
 using MobileProjectManager.Models;
 using System.Diagnostics;
+using System.Collections.ObjectModel;
 
 namespace MobileProjectManager.ViewModels.Database
 {
@@ -35,7 +36,6 @@ namespace MobileProjectManager.ViewModels.Database
             if (client == null) return false;
             return true;
         }
-
         public static User GetUserFromId(ObjectId id)
         {
             var collection = database.GetCollection<User>("users");
@@ -50,14 +50,20 @@ namespace MobileProjectManager.ViewModels.Database
                 return null;
             }
         }
-
+        public static List<User> GetProjectWorkers(Project project)
+        {
+            var collectionUser = database.GetCollection<User>("users");
+            IEnumerable<ObjectId> ids = project.WorkerIDList.ToArray();
+            var filterID = Builders<User>.Filter.In(user => user.ID, ids).ToBsonDocument();
+            List<User> result = collectionUser.Find(filterID).ToList();
+            return result;
+        }
         public static void UpdateProject(Project project)
         {
             var collection = database.GetCollection<Project>("projects");
             var filter = Builders<Project>.Filter.Eq(s => s.ID, project.ID);
             var result = collection.ReplaceOneAsync(filter, project);
         }
-
         public static void SaveProjectToDB(Project project)
         {
             try
@@ -91,14 +97,12 @@ namespace MobileProjectManager.ViewModels.Database
             List<Project> res = collection.FindSync(filter).ToList();
             return res;
         }
-
         public async static void DeleteTask(Models.Task task)
         {
             var collection = database.GetCollection<Models.Task>("tasks");
             var filter = Builders<Models.Task>.Filter.Eq("ID", task.ID);
             var tasks = await collection.DeleteOneAsync(filter);
         }
-
         public async static void DeleteProject(ObjectId ID)
         {
             var collection = database.GetCollection<Project>("projects");
@@ -139,7 +143,6 @@ namespace MobileProjectManager.ViewModels.Database
                 }
             }
         }
-
         internal static Team GetTeam(ObjectId id)
         {
             var collection = database.GetCollection<Team>("teams");
@@ -156,7 +159,6 @@ namespace MobileProjectManager.ViewModels.Database
                 return null;
             }
         }
-
         public static void AddUser(ref User user)
         {
             try
@@ -225,6 +227,7 @@ namespace MobileProjectManager.ViewModels.Database
             var collectionUser = database.GetCollection<User>("users");
 
             var filter = new BsonDocument();
+            // TODO: rewrite (IN FIRST!)
             var team = collectionTeam.FindSync(filter).First();
             IEnumerable<ObjectId> ids = team.WorkersID.ToArray();
             var filterID = Builders<User>.Filter.In(user => user.ID, ids).ToBsonDocument();
@@ -285,8 +288,6 @@ namespace MobileProjectManager.ViewModels.Database
             List<Notification> res = collection.FindSync(filter).ToList();
             return res;
         }
-
-
         public static void AddTaskToProject(Project project, ref Models.Task task)
         {
             var taskCollection = database.GetCollection<Models.Task>("tasks");
@@ -313,7 +314,7 @@ namespace MobileProjectManager.ViewModels.Database
             }
             var collection = database.GetCollection<Models.Task>("tasks");
             var builder = Builders<Models.Task>.Filter;
-            var filter = builder.Eq("ID", TaskID);
+            var filter = builder.Eq("_id", TaskID);
             List<Models.Task> res = collection.FindSync(filter).ToList();
             return res;
         }

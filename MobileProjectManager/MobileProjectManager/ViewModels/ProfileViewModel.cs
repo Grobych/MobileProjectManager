@@ -10,6 +10,7 @@ using MobileProjectManager.Views;
 using System.Collections.Generic;
 using MobileProjectManager.Views.TaskViews;
 using MobileProjectManager.ViewModels.Utils;
+using System.Diagnostics;
 
 namespace MobileProjectManager.ViewModels
 {
@@ -23,6 +24,7 @@ namespace MobileProjectManager.ViewModels
         public ICommand ToTeamListCommand { protected set; get; }
         public ICommand ToNotificationListCommand { protected set; get; }
         public ICommand ToTaskListCommand { protected set; get; }
+        public ICommand CallCommand { protected set; get; }
 
         public User User { get; set; }
 
@@ -34,11 +36,18 @@ namespace MobileProjectManager.ViewModels
             ToTeamListCommand = new Command(ToTeamsList);
             ToNotificationListCommand = new Command(ToNotificationList);
             ToTaskListCommand = new Command(ToTaskList);
+            CallCommand = new Command(CallUserAsync);
             TeamListView = new TeamListViewModel(this);
+        }
+
+        private async void CallUserAsync()
+        {
+            await DependencyService.Get<IPhoneCall>()?.Call(User.Number);
         }
 
         private void ToTaskList(object obj)
         {
+            // TODO: crash to taskList from profile page
             List<Models.Task> list = Database.Database.GetTaskFromUser(User);
             NavigationUtil.Navigation.PushAsync(new TaskListPage(new TaskListViewModel(list)));
         }
@@ -112,9 +121,26 @@ namespace MobileProjectManager.ViewModels
         //    }
         //}
 
+        public string Number
+        {
+            get { return User.Number; }
+            set
+            {
+                if (User.Number != value)
+                {
+                    User.Number = value;
+                    OnPropertyChanged("Number");
+                }
+            }
+        }
+
         public bool IsUserPage
         {
             get { return User.ID == Auth.CurrentUser.ID; }
+        }
+        public bool IsNotUserPage
+        {
+            get { return !IsUserPage; }
         }
 
         protected void OnPropertyChanged(string propName)

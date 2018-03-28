@@ -139,6 +139,17 @@ namespace MobileProjectManager.ViewModels
                 }
             }
         }
-
+        public string Number
+        {
+            get { return currentUser.Number; }
+            set
+            {
+                if (currentUser.Number != value)
+                {
+                    currentUser.Number = value;
+                    OnPropertyChanged("Number");
+                }
+            }
+        }
     }
 }

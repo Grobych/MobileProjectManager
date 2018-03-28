@@ -5,13 +5,14 @@
     <ContentPage.Content>
         <StackLayout VerticalOptions="StartAndExpand">
             <Label Text="Username" />
-            <Entry x:Name="usernameEntry" Text="{Binding Name}"/>
+            <Entry Text="{Binding Name}"/>
+            <Label Text="Phone number" />
+            <Entry Text="{Binding Number}" Keyboard="Telephone" />
             <Label Text="Email" />
-            <Entry x:Name="emailEntry" Text="{Binding Email}" />
+            <Entry Text="{Binding Email}" />
             <Label Text="Password" />
-            <Entry x:Name="passwordEntry" Text="{Binding Password}" IsPassword="true" />
+            <Entry Text="{Binding Password}" IsPassword="true" />
             <Button Text="SingUp" Command="{Binding SignUPCommand}" CommandParameter="{Binding}" />
-            <Label x:Name="messageLabel" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

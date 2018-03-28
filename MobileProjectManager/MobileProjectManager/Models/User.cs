@@ -22,5 +22,7 @@ namespace MobileProjectManager.Models
 
         public byte[] Img { get; set; }
 
+        public string Number { get; set; }
+
     }
 }

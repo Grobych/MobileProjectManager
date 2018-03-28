@@ -38,6 +38,11 @@ namespace MobileProjectManager.ViewModels
         {
             EditableProject = (Project)Project.Clone();
             WorkerList = new ObservableCollection<ProfileViewModel>();
+            //foreach (var item in Project.WorkerIDList)
+            //{
+            //    WorkerList.Add(new ProfileViewModel(Database.Database.GetUserFromId(item)));
+            //}
+            // TODO: fix timeout error
             EditProjectCommand = new Command(EditCommand);
             CancelEditCommand = new Command(CancelCommand);
             CreateProjectCommand = new Command(CreateCommand);
@@ -147,6 +152,7 @@ namespace MobileProjectManager.ViewModels
         }
         public DateTime Deadline
         {
+            // TODO: fix uasbility date picker
             get { return Project.Deadline; }
             set
             {
@@ -171,9 +177,10 @@ namespace MobileProjectManager.ViewModels
         }
         public string Status
         {
+            // TODO: fix status descryption
             get {
-                if (Project.Status) return "Завершен";
-                else return "В процессе";
+                if (Project.Status) return "Completed";
+                else return "In progress";
             }
             //set
             //{
