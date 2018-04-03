@@ -19,7 +19,15 @@
               SelectedItem="{Binding SelectedUser, Mode=TwoWay}" HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
+                        <ImageCell
+                            ImageSource="noavatar.png"
+                            Text="{Binding Name}"
+                            Detail="{Binding IsOnline}"
+                            TextColor="Red"
+                            DetailColor="Green"
+                            Command="{Binding ToProfilePage}"
+                        />
+                            <!--<ViewCell>
                             <ViewCell.View>
                                 <StackLayout Orientation="Horizontal" >
                                     <Image BackgroundColor="Green" HeightRequest="50" WidthRequest="50"/>
@@ -29,7 +37,7 @@
                                     </StackLayout.GestureRecognizers>
                                 </StackLayout>
                             </ViewCell.View>
-                        </ViewCell>
+                        </ViewCell>-->
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

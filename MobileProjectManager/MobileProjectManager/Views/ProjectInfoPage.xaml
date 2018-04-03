@@ -50,31 +50,42 @@
                 <Label HorizontalOptions="Start" Text="Дедлайн:"></Label>
                 <Label HorizontalOptions="End" Text="{Binding Project.Deadline}" FontSize="Medium"></Label>
             </StackLayout>
-            <Button Text="Edit" 
-                    Command="{Binding EditProjectCommand}" 
-                    IsEnabled="{Binding IsUserPM}"/>
-            <Button Text="Add Worker" 
-                    Command="{Binding AddWorkerCommand}" 
-                    IsEnabled="{Binding IsUserPM}"/>
-            <Button Text="Tasks" 
-                    Command="{Binding ToTaskListCommand}" />
             <StackLayout Orientation="Vertical">
                 <Label Text="Работники в проекте:"></Label>
                 <ListView x:Name="workerList" ItemsSource="{Binding WorkerList}"
-              SelectedItem="{Binding SelectedWorker, Mode=TwoWay}" HasUnevenRows="True">
+                          SelectedItem="{Binding SelectedWorker, Mode=TwoWay}" HasUnevenRows="True">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell>
+                            <ImageCell
+                                ImageSource="noavatar.png"
+                                Text="{Binding Name}"
+                                Detail="{Binding IsOnline}"
+                                TextColor="Red"
+                                DetailColor="Green"
+                            />
+                            <!--<ViewCell>
                                 <ViewCell.View>
                                     <StackLayout Orientation="Horizontal">
+                                        --><!--<ImageCell ImageSource="noavatar.png"/>
                                         <Label Text="{Binding Name}" FontSize="Medium" />
-                                        <Label Text="{Binding IsOnline}" FontSize="Small" />
+                                        <Label Text="{Binding IsOnline}" FontSize="Small" />--><!--
+                                        
                                     </StackLayout>
                                 </ViewCell.View>
-                            </ViewCell>
+                            </ViewCell>-->
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+            </StackLayout>
+            <StackLayout Orientation="Vertical">
+                <Button Text="Edit" 
+                    Command="{Binding EditProjectCommand}" 
+                    IsEnabled="{Binding IsUserPM}"/>
+                <Button Text="Add Worker" 
+                    Command="{Binding AddWorkerCommand}" 
+                    IsEnabled="{Binding IsUserPM}"/>
+                <Button Text="Tasks" 
+                    Command="{Binding ToTaskListCommand}" />
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

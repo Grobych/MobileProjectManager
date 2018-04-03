@@ -4,6 +4,7 @@ using System.Text;
 
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Xamarin.Forms;
 
 namespace MobileProjectManager.Models
 {
@@ -20,7 +21,7 @@ namespace MobileProjectManager.Models
 
         public string Email { get; set; }
 
-        public byte[] Img { get; set; }
+        public Image Img { get; set; }
 
         public string Number { get; set; }
 

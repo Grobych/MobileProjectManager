@@ -108,18 +108,21 @@ namespace MobileProjectManager.ViewModels
             }
         }
 
-        //public byte[] Img
-        //{
-        //    get { return User.Img; }
-        //    set
-        //    {
-        //        if (User.Img != value)
-        //        {
-        //            User.Img = value;
-        //            OnPropertyChanged("Img");
-        //        }
-        //    }
-        //}
+        public Image Img
+        {
+            get
+            {
+                return User.Img;
+            }
+            set
+            {
+                if (User.Img != value)
+                {
+                    User.Img = value;
+                    OnPropertyChanged("Image");
+                }
+            }
+        }
 
         public string Number
         {

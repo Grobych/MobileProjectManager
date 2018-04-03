@@ -6,7 +6,7 @@
         <ScrollView>
             <StackLayout Spacing="0" Padding="0">
                 <BoxView HorizontalOptions="FillAndExpand" HeightRequest="50" VerticalOptions="Start"/>
-                <Image HeightRequest="200" WidthRequest="200" BackgroundColor="Red" HorizontalOptions="Center" VerticalOptions="Start" />
+                <Image Source="noavatar.png" HeightRequest="200" WidthRequest="200" BackgroundColor="Red" HorizontalOptions="Center" VerticalOptions="Start" />
                 <StackLayout HeightRequest="150" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Spacing="20">
                     <Label Text="{Binding Name}" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" />
                     <Label Text="{Binding ID}" FontSize="Small" HorizontalOptions="Center" VerticalOptions="Center"/>

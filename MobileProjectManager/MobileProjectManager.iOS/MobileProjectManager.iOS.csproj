@@ -135,4 +135,7 @@
       <Name>MobileProjectManager</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\noavatar.png" />
+  </ItemGroup>
 </Project>
