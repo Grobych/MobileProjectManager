@@ -25,6 +25,7 @@ namespace MobileProjectManager.ViewModels
 
         public LoginViewModel()
         {
+            if (!Utils.NetConnect.CheckConnection()) Toast.ShowToast("Connection Error", "Check your connection to the Network");
             currentUser = new User();
             LoginCommand = new Command(TryToLogin);
             SignUPCommand = new Command(SignUP);
@@ -40,10 +41,16 @@ namespace MobileProjectManager.ViewModels
 
         public void TryToLogin()
         {
+            if (!Utils.NetConnect.CheckConnection())
+            {
+                Toast.ShowToast("Connection Error", "Check your connection to the Network");
+                return;
+            }
+
             bool Res = Database.Database.GetUser(ref currentUser);
             if (!Res)
             {
-                Utils.Toast.ShowToast("Login Failed", "Please, check you login and password", false);
+                Utils.Toast.ShowToast("Login Failed", "Please, check you login and password");
             }
             else
             {
@@ -59,12 +66,12 @@ namespace MobileProjectManager.ViewModels
             {
                 Database.Database.AddUser(ref viewModel.currentUser);
                 currentUser.IsOnline = true;
-                Utils.Toast.ShowToast("SignUp Success", "SignUP has completed succesfully", false);
+                Utils.Toast.ShowToast("SignUp Success", "SignUP has completed succesfully");
                 NavigationUtil.Navigation.PopAsync();
             }
             else
             {
-                Utils.Toast.ShowToast("SignUp Failed", "There is another user with this username in system", false);
+                Utils.Toast.ShowToast("SignUp Failed", "There is another user with this username in system");
             }
         }
         public void Logout()

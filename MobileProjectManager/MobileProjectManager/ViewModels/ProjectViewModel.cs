@@ -280,7 +280,7 @@ namespace MobileProjectManager.ViewModels
             }
             else
             {
-                Utils.Toast.ShowToast("Error", "Check input fields", false);
+                Utils.Toast.ShowToast("Error", "Check input fields");
             }
         }
         public void DeleteCommand()
@@ -304,7 +304,7 @@ namespace MobileProjectManager.ViewModels
             User user = Database.Database.GetUser(UserName);
             if (user == null)
             {
-                Toast.ShowToast("Error", "User not found!", false);
+                Toast.ShowToast("Error", "User not found!");
                 return;
             }
             else
@@ -324,7 +324,7 @@ namespace MobileProjectManager.ViewModels
                 Line = bson
             };
             Database.Database.AddNotification(ref notification);
-            Toast.ShowToast("Complete!", "Worker has been added to project", false);
+            Toast.ShowToast("Complete!", "Worker has been added to project");
         }
 
         private void ToPMCommand(object obj)

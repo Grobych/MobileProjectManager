@@ -109,7 +109,7 @@ namespace MobileProjectManager.ViewModels
             Database.Database.AddNotification(ref notification);
             Task.Status = TaskStatus.Completed;
             Database.Database.UpdateTask(Task);
-            Toast.ShowToast("Complete!", "Report has been sended", false);
+            Toast.ShowToast("Complete!", "Report has been sended");
         }
 
 
@@ -137,7 +137,7 @@ namespace MobileProjectManager.ViewModels
                     .Add("TaskName",Task.Name)
                 };
                 Database.Database.AddNotification(ref notification);
-                Toast.ShowToast("Complete!", "Task hes been approved", false);
+                Toast.ShowToast("Complete!", "Task hes been approved");
             } else
             {
                 Task.Status = TaskStatus.InProgress;
@@ -152,7 +152,7 @@ namespace MobileProjectManager.ViewModels
                     .Add("Comment",Comment)
                 };
                 Database.Database.AddNotification(ref notification);
-                Toast.ShowToast("Complete!", "Task still in progress",false);
+                Toast.ShowToast("Complete!", "Task still in progress");
             }
         }
 

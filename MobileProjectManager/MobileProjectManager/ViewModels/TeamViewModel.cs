@@ -57,7 +57,7 @@ namespace MobileProjectManager.ViewModels
             User user = Database.Database.GetUser(UserName);
             if (user == null)
             {
-                Toast.ShowToast("Error", "User not found!", false);
+                Toast.ShowToast("Error", "User not found!");
                 return;
             }
             BsonDocument bson = new BsonDocument();
@@ -75,7 +75,7 @@ namespace MobileProjectManager.ViewModels
                 Line = bson 
             };
             Database.Database.AddNotification(ref notification);
-            Toast.ShowToast("Complete!", "invite has been sended", false);
+            Toast.ShowToast("Complete!", "invite has been sended");
         }
 
         private void GetWorkersFromDB(Team team)
