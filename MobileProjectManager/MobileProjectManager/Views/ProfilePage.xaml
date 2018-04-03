@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MobileProjectManager.Views.ProfilePage">
+             x:Class="MobileProjectManager.Views.ProfilePage"
+             Title="Profile Page">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Spacing="0" Padding="0">
