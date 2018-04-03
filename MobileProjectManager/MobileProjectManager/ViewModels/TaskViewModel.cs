@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Text;
 using System.Windows.Input;
 using MobileProjectManager.Models;
 using MobileProjectManager.ViewModels.Utils;

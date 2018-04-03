@@ -2,12 +2,9 @@
 using MobileProjectManager.ViewModels.Utils;
 using MobileProjectManager.Views;
 using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 

@@ -1,7 +1,4 @@
 ﻿using Plugin.Toasts;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms;
 
 namespace MobileProjectManager.ViewModels.Utils

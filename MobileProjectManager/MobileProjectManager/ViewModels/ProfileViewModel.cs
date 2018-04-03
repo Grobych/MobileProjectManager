@@ -1,16 +1,12 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows.Input;
 using MobileProjectManager.Models;
 using MongoDB.Bson;
 using Xamarin.Forms;
-
-using MobileProjectManager.ViewModels;
 using MobileProjectManager.Views;
 using System.Collections.Generic;
 using MobileProjectManager.Views.TaskViews;
 using MobileProjectManager.ViewModels.Utils;
-using System.Diagnostics;
 
 namespace MobileProjectManager.ViewModels
 {

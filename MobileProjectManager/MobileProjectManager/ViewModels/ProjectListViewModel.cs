@@ -4,10 +4,7 @@ using Xamarin.Forms;
 using System.ComponentModel;
 using MobileProjectManager.Views;
 using MobileProjectManager.Models;
-
-using MobileProjectManager.ViewModels.Database;
 using System.Collections.Generic;
-using System;
 using System.Diagnostics;
 using MobileProjectManager.ViewModels.Utils;
 

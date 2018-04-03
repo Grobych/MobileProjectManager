@@ -1,14 +1,10 @@
-﻿using Acr.UserDialogs;
-using MobileProjectManager.Models;
+﻿using MobileProjectManager.Models;
 using MobileProjectManager.ViewModels.Utils;
 using MobileProjectManager.Views.TaskViews;
 using MongoDB.Bson;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Text;
 using Xamarin.Forms;
 
 namespace MobileProjectManager.ViewModels

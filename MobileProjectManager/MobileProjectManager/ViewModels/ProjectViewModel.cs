@@ -6,7 +6,6 @@ using MobileProjectManager.Views;
 using MobileProjectManager.Models;
 using System.Reflection;
 using System;
-
 using MongoDB.Bson;
 using MobileProjectManager.ViewModels.Utils;
 using MobileProjectManager.Views.TaskViews;

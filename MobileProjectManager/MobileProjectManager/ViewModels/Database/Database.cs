@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
 using MongoDB.Driver;
 using MongoDB.Bson;
-
 using MobileProjectManager.Models;
-using System.Diagnostics;
-using System.Collections.ObjectModel;
 
 namespace MobileProjectManager.ViewModels.Database
 {
